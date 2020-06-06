@@ -51,3 +51,121 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
+
+
+;; System locale to use for formatting time values.
+(setq system-time-locale "C")         ; Make sure that the weekdays in the
+                                      ; time stamps of your Org mode files and
+                                      ; in the agenda appear in English.
+
+;; Custom key bindings
+;; ===================
+
+;; Use C-; to insert current datetime like in every other app
+;;
+(defun rodelrod/insert-timestamp ()
+  "Insert current date time formatted like an org inactive timestamp."
+  (interactive)
+  (insert (format-time-string "[%Y-%m-%d %a %H:%M]")))
+(map! :nvie "C-;" 'rodelrod/insert-timestamp)
+
+;; Org settings
+;; ============
+(after! org
+  (setq org-log-done t)
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)")))
+  ;: Hide the ~tildes~ and =equals= of the world
+  (setq org-hide-emphasis-markers t)
+  (setq org-enforce-todo-dependencies t)
+  ;; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
+  (setq org-log-into-drawer t)
+  ;; Open narrowed indirect buffer in a new frame instead of re-using another window.
+  ;; This means I have to delete the buffers myself, or they'll just accumulate.
+  (setq org-indirect-buffer-display 'new-frame)
+
+  ;; Export to an `./exports' directory to prevent cluttering the main file and
+  ;; allow to easily exclude from git.
+  ;; Adapted from https://stackoverflow.com/a/47850858/20989
+  (defun org-export-output-file-name-modified (orig-fun extension &optional subtreep pub-dir)
+    (unless pub-dir
+      (setq pub-dir "exports")
+      (unless (file-directory-p pub-dir)
+        (make-directory pub-dir)))
+    (apply orig-fun extension subtreep pub-dir nil))
+  (advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)
+
+  ;; Org-Agenda
+  ;; ----------
+  (setq org-agenda-files '("~/org/"))
+  (setq org-agenda-custom-commands
+        '(("n" "Agenda, NEXT, and other TODOs"
+           ((agenda "" nil)
+            (todo "NEXT"
+                  ((org-agenda-overriding-header "Unscheduled NEXT items:")
+                   (org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
+            (todo "WAITING" nil)
+            )
+           nil)
+
+          ;; Last week entries sorted roughly by from latest to earliest (it's
+          ;; hard to sort by creation date, which is what I wanted).
+          ("l"  "Entries created last week"
+           tags "+TIMESTAMP_IA>\"<-1w>\""
+           ((org-agenda-sorting-strategy '(tsia-down timestamp-down))))
+
+          ;; Allow me to archive old items. I prefer archiving only level-2
+          ;; headings: Level-1 are Areas and Level-2 can be projects or odd
+          ;; tasks. I want to archive project trees in one go instead of
+          ;; having the tasks scattered in the Archive datetree.
+          ("r" "Tasks/Projects ready to archive (Level-2 items closed more than 2 months ago)"
+           tags "+CLOSED<\"<-2m>\"+LEVEL=2")))
+  ;; Function used to launch agenda on emacs client startup
+  (defun org-agenda-show-n (&optional arg)
+    (interactive "P")
+    (org-agenda arg "n"))
+
+  ;; Auto-save all org files on some org-agenda commands (feel free to add)
+  ;; based on https://emacs.stackexchange.com/a/7840 and https://emacs.stackexchange.com/a/489
+  (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
+  (advice-add 'org-archive-subtree :after 'org-save-all-org-buffers)
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+  (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
+
+  ;; Org-Archive
+  ;; -----------
+  (setq org-archive-location "%s_archive::datetree/")
+
+  ;; Org-Roam
+  ;; --------
+  (setq org-roam-tag-sources '(prop all-directories))
+  (setq org-roam-directory "~/org/notes")
+
+
+  ;; Org: Personal Project Setup
+  ;; ---------------------------
+
+  ;; Org-Stuck-Projects
+  ;; List as stuck project if ProjectState property is ACTIVE but it has no
+  ;; sub-task marked as NEXT; except if project is marked as a SOMEDAY, DONE
+  ;; or CANCELLED todo item. The ProjectState property is set automatically on
+  ;; every heading that has a statistics cookie.
+  (setq org-stuck-projects
+        '("+ProjectState=\"ACTIVE\"/-SOMEDAY-DONE-CANCELLED" ("NEXT") nil ""))
+
+  ;; Toggle ProjectState in headings with a statistic cookie between
+  ;; ACTIVE (if it contains at least one subtask to be done) and
+  ;; MUTED (if there's no subtask to be done).
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-log-states)   ; turn off logging
+      (org-set-property "ProjectState" (if (= n-not-done 0) "MUTED" "ACTIVE"))))
+  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
+  ;; Set ACTIVE and MUTED as allowed values for ProjectState
+  (defun org-property-set-allowed-project-states (property)
+    "Set allowed valued for the ProjectState property."
+    (when (equal property "ProjectState") '("ACTIVE" "MUTED")))
+  (add-hook 'org-property-allowed-value-functions 'org-property-set-allowed-project-states)
+
+  )
