@@ -73,12 +73,13 @@
 ;; Org settings
 ;; ============
 (after! org
-  (setq org-log-done t)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)")))
   ;: Hide the ~tildes~ and =equals= of the world
   (setq org-hide-emphasis-markers t)
   (setq org-enforce-todo-dependencies t)
+  ;; Add CLOSED timestamp when todo is done
+  (setq org-log-done t)
   ;; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
   (setq org-log-into-drawer t)
   ;; Open narrowed indirect buffer in a new frame instead of re-using another window.
