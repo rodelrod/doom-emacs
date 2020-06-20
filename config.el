@@ -72,11 +72,13 @@
 
 ;; Org settings
 ;; ============
+
+;; Hide the ~tildes~ and =equals= of the world, as well as org entities
+(add-hook! 'org-mode-hook #'+org-pretty-mode)
+
 (after! org
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)")))
-  ;: Hide the ~tildes~ and =equals= of the world
-  (setq org-hide-emphasis-markers t)
   (setq org-enforce-todo-dependencies t)
   ;; Add CLOSED timestamp when todo is done
   (setq org-log-done t)
