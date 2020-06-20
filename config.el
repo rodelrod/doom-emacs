@@ -160,8 +160,14 @@
   ;; MUTED (if there's no subtask to be done).
   (defun org-summary-todo (n-done n-not-done)
     "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    ;; We want to shadow a couple of variables to turn off loggin below, but
+    ;; since lexical binding is on in this file, we need to force dynamic
+    ;; binding using defvar.
+    (defvar org-log-done)
+    (defvar org-log-states)
     (let (org-log-done org-log-states)   ; turn off logging
-      (org-set-property "ProjectState" (if (= n-not-done 0) "MUTED" "ACTIVE"))))
+      (org-set-property "ProjectState" (if (= n-not-done 0) "MUTED" "ACTIVE")))
+    (ignore n-done))   ; reassure the bytecomp that we know we're not using the variable
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
   ;; Set ACTIVE and MUTED as allowed values for ProjectState
