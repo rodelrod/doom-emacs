@@ -73,9 +73,24 @@
 ;; Org settings
 ;; ============
 
+;; Font Display
+;; ------------
+
 ;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
 ;; adaptive-wrap-prefix-mode: indent wrapped lines in visual-line-mode
 (add-hook! 'org-mode-hook #'+org-pretty-mode #'adaptive-wrap-prefix-mode)
+
+;; Bigger headings for org-mode, markdown and any other outliney things
+(custom-set-faces!
+  '(org-document-title :weight bold :height 1.40)
+  '(outline-1 :weight bold :height 1.35)
+  '(outline-2 :weight bold :height 1.25)
+  '(outline-3 :weight bold :height 1.20)
+  '(outline-4 :weight semi-bold :height 1.15)
+  '(outline-5 :weight semi-bold :height 1.12)
+  '(outline-6 :weight semi-bold :height 1.09)
+  '(outline-8 :weight semi-bold :height 1.06)
+  '(outline-9 :weight semi-bold))
 
 (after! org
   ;; Disable the visual org-indent-mode, set by default by Doom. I prefer
