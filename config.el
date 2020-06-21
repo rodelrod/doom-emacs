@@ -77,7 +77,7 @@
 
 ;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
 ;; adaptive-wrap-prefix-mode: indent wrapped lines in visual-line-mode
-(add-hook! 'org-mode-hook #'+org-pretty-mode #'adaptive-wrap-prefix-mode)
+(add-hook! 'org-mode-hook #'+org-pretty-mode)
 
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
@@ -92,9 +92,6 @@
   '(outline-9 :weight semi-bold))
 
 (after! org
-  ;; Disable the visual org-indent-mode, set by default by Doom. I prefer
-  ;; org-adapt-indentation where we get real spaces in the file.
-  (setq org-startup-indented nil)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)")))
   (setq org-enforce-todo-dependencies t)
