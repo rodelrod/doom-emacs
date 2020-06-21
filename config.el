@@ -63,7 +63,6 @@
 ;; ===================
 
 ;; Use C-; to insert current datetime like in every other app
-;;
 (defun rodelrod/insert-timestamp ()
   "Insert current date time formatted like an org inactive timestamp."
   (interactive)
