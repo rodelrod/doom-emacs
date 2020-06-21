@@ -81,14 +81,14 @@
 
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
-  '(org-document-title :weight bold :height 1.40)
-  '(outline-1 :weight bold :height 1.35)
-  '(outline-2 :weight bold :height 1.25)
-  '(outline-3 :weight bold :height 1.20)
-  '(outline-4 :weight semi-bold :height 1.15)
-  '(outline-5 :weight semi-bold :height 1.12)
-  '(outline-6 :weight semi-bold :height 1.09)
-  '(outline-8 :weight semi-bold :height 1.06)
+  '(org-document-title :weight bold :height 1.35)
+  '(outline-1 :weight bold :height 1.25)
+  '(outline-2 :weight bold :height 1.20)
+  '(outline-3 :weight bold :height 1.15)
+  '(outline-4 :weight semi-bold :height 1.12)
+  '(outline-5 :weight semi-bold :height 1.09)
+  '(outline-6 :weight semi-bold :height 1.06)
+  '(outline-8 :weight semi-bold :height 1.03)
   '(outline-9 :weight semi-bold))
 
 (after! org
