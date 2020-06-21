@@ -148,7 +148,7 @@
 
   ;; Org-Archive
   ;; -----------
-  (setq org-archive-location "%s_archive::datetree/")
+  (setq org-archive-location "archive/%s_archive::datetree/")
 
   ;; Org-Roam
   ;; --------
