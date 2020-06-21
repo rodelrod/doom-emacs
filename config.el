@@ -192,3 +192,11 @@
   (add-hook 'org-property-allowed-value-functions 'org-property-set-allowed-project-states)
 
   )
+
+(add-hook! 'org-journal-mode-hook #'org-indent-mode)
+(after! org-journal
+  (setq org-journal-date-prefix "#+TITLE: "
+        org-journal-date-format "%A W%V, %d/%m/%Y"
+        org-journal-file-format "%Y-%m-%d.org"
+        org-journal-carryover-items nil)
+  (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
