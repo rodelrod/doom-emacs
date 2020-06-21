@@ -197,3 +197,13 @@
         org-journal-file-format "%Y-%m-%d.org"
         org-journal-carryover-items nil)
   (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
+
+;; Org-Rifle
+;; ---------
+(use-package! helm-org-rifle
+  :init
+  (map! :leader
+        "o r" 'helm-org-rifle-agenda-files)
+  :config
+  ;; show path to header in search results
+  (setq helm-org-rifle-show-path t))
