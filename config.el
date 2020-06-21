@@ -72,9 +72,6 @@
 ;; Org settings
 ;; ============
 
-;; Font Display
-;; ------------
-
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
   '(org-document-title :weight bold :height 1.35)
@@ -189,10 +186,10 @@
   (defun org-property-set-allowed-project-states (property)
     "Set allowed valued for the ProjectState property."
     (when (equal property "ProjectState") '("ACTIVE" "MUTED")))
-  (add-hook 'org-property-allowed-value-functions 'org-property-set-allowed-project-states)
+  (add-hook 'org-property-allowed-value-functions 'org-property-set-allowed-project-states))
 
-  )
-
+;; Org-Journal
+;; -----------
 (add-hook! 'org-journal-mode-hook #'org-indent-mode)
 (after! org-journal
   (setq org-journal-date-prefix "#+TITLE: "
