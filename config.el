@@ -75,10 +75,6 @@
 ;; Font Display
 ;; ------------
 
-;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
-;; adaptive-wrap-prefix-mode: indent wrapped lines in visual-line-mode
-(add-hook! 'org-mode-hook #'+org-pretty-mode)
-
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
   '(org-document-title :weight bold :height 1.35)
@@ -91,6 +87,8 @@
   '(outline-8 :weight semi-bold :height 1.03)
   '(outline-9 :weight semi-bold))
 
+;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
+(add-hook! 'org-mode-hook #'+org-pretty-mode)
 (after! org
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)")))
