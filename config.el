@@ -150,6 +150,27 @@
   ;; -----------
   (setq org-archive-location "archive/%s_archive::datetree/")
 
+  ;; Org-Capture
+  ;; -----------
+  (setq org-default-notes-file "inbox.org")
+  ;; Get into insert state immediately after entering Capture
+  ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
+  (setq org-capture-templates
+        '(("t" "todo" entry
+            (file "inbox.org")
+            "* TODO %?\n%U\n")
+          ("n" "note" entry
+            (file "inbox.org")
+            "* %?\n%U\n")
+          ("p" "org-protocol" entry
+            (file "inbox.org")
+            "* %:annotation\n%U\n\n%i\n"
+            :empty-lines 1
+            :immediate-finish t)
+          ("r" "weekly org review" entry
+            (file "weekly_reviews.org")
+            (file "~/org/templates/review.org"))))
+
   ;; Org-Roam
   ;; --------
   (setq org-roam-tag-sources '(prop all-directories))
