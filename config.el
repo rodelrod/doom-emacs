@@ -71,7 +71,7 @@
   (insert (format-time-string "[%Y-%m-%d %a %H:%M]")))
 (map! :nvie "C-;" 'rodelrod/insert-timestamp)
 
-;; Org settings
+;; org settings
 ;; ============
 
 ;; Bigger headings for org-mode, markdown and any other outliney things
