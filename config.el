@@ -235,4 +235,6 @@
         "o r" 'helm-org-rifle-agenda-files)
   :config
   ;; show path to header in search results
-  (setq helm-org-rifle-show-path t))
+  (setq helm-org-rifle-show-path t)
+  (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil)
+  )
