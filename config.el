@@ -77,13 +77,16 @@
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
   '(org-document-title :weight bold :height 1.35)
-  '(outline-1 :weight bold :height 1.25)
-  '(outline-2 :weight bold :height 1.20)
-  '(outline-3 :weight bold :height 1.15)
-  '(outline-4 :weight semi-bold :height 1.12)
-  '(outline-5 :weight semi-bold :height 1.09)
-  '(outline-6 :weight semi-bold :height 1.06)
-  '(outline-8 :weight semi-bold :height 1.03)
+  '(outline-1 :weight bold :height 1.30)
+  '(outline-2 :weight bold :height 1.25)
+  '(outline-3 :weight bold :height 1.20 )
+  ;; HACK: setting width for this font does not change width but it's enough to
+  ;; trick emacs into not giving me the outsized Noto's Black Florette for this
+  ;; bullet and use Deja Vu's instead
+  '(outline-4 :weight semi-bold :height 1.15 :width semi-condensed)
+  '(outline-5 :weight semi-bold :height 1.12)
+  '(outline-6 :weight semi-bold :height 1.09)
+  '(outline-8 :weight semi-bold :height 1.06)
   '(outline-9 :weight semi-bold))
 
 ;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
