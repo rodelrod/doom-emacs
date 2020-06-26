@@ -222,7 +222,10 @@
         org-journal-date-format "%A W%V, %d/%m/%Y"
         org-journal-file-format "%Y-%m-%d.org"
         org-journal-carryover-items nil)
-  (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
+  (add-to-list '+word-wrap-visual-modes 'org-journal-mode)
+  (map! :leader
+        :desc "Today's file"
+        "n j t" #'org-journal-open-current-journal-file))
 
 ;; Org-Rifle
 ;; ---------
