@@ -92,6 +92,7 @@
 ;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
 (after! org
+  (setq org-startup-folded 'content)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)")))
   (setq org-enforce-todo-dependencies t)
