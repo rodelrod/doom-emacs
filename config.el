@@ -180,7 +180,7 @@
   ;; Org-Roam
   ;; --------
   (setq org-roam-tag-sources '(prop all-directories))
-  (setq org-roam-directory "/data/Dropbox/Dropbox/Databases/Org/notes")
+  (setq org-roam-directory "/data/Dropbox/Dropbox/Org/notes")
 
 
   ;; Org: Personal Project Setup
