@@ -130,7 +130,9 @@
 
   ;; Org-Agenda
   ;; ----------
-  (setq org-agenda-files '("~/org/"))
+  (setq org-agenda-files (nconc
+                          (directory-files-recursively "~/org/tasks" "\.org$")
+                          (directory-files-recursively "~/org/notes/project" "\.org$")))
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
@@ -232,8 +234,9 @@
 ;; -----------
 (add-hook! 'org-journal-mode-hook #'org-indent-mode)
 (after! org-journal
-  (setq org-journal-date-prefix "#+TITLE: "
-        org-journal-date-format "%A W%V, %d/%m/%Y"
+  (setq org-journal-dir "~/org/notes/journal"
+        org-journal-date-prefix "#+TITLE: "
+        org-journal-date-format "%A W%V, %Y-%m-%d"
         org-journal-file-format "%Y-%m-%d.org"
         org-journal-carryover-items nil)
   (add-to-list '+word-wrap-visual-modes 'org-journal-mode)
