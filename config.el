@@ -89,6 +89,18 @@
   '(outline-8 :weight semi-bold :height 1.06)
   '(outline-9 :weight semi-bold))
 
+;; The following code was committed (2020-05-11) then reverted (2020-05-13) from
+;; Doom Emacs. I needed to be able to jump back in Org files though.
+;;
+;; HACK Emacs cannot distinguish C-i from TAB, which is disturbing. Instead,
+;;      let's at least make GUI Emacs aware of this distinction:
+(define-key key-translation-map [?\C-i]
+  (λ! (if (and (not (cl-position 'tab    (this-single-command-raw-keys)))
+               (not (cl-position 'kp-tab (this-single-command-raw-keys)))
+               (display-graphic-p))
+          [C-i] [?\C-i])))
+(map! :g [C-i] #'evil-jump-forward)
+
 ;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
 (after! org
