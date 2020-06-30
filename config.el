@@ -60,6 +60,7 @@
 (setq system-time-locale "C")         ; Make sure that the weekdays in the
                                       ; time stamps of your Org mode files and
                                       ; in the agenda appear in English.
+(setq delete-by-moving-to-trash t)
 
 ;; Custom key bindings
 ;; ===================
