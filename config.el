@@ -238,7 +238,8 @@
 (after! org-journal
   (setq org-journal-dir "~/org/notes/journal"
         org-journal-date-prefix "#+TITLE: "
-        org-journal-date-format "%A W%V, %Y-%m-%d"
+        org-journal-date-format "%A W%V, %d %B %Y"
+        org-journal-time-format "[%Y-%m-%d %H:%M] "   ; make it easier to refile preserving data
         org-journal-file-format "%Y-%m-%d.org"
         org-journal-carryover-items nil)
   (add-to-list '+word-wrap-visual-modes 'org-journal-mode)
