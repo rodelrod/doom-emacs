@@ -106,7 +106,7 @@
 (map! :g [C-i] #'evil-jump-forward)
 
 ;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
-(add-hook! 'org-mode-hook #'+org-pretty-mode)
+(add-hook! 'org-mode-hook #'(+org-pretty-mode doom-disable-line-numbers-h))
 (after! org
   (setq org-startup-folded 'content)
   (setq org-todo-keywords
