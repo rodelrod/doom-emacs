@@ -56,6 +56,9 @@
 ;; they are implemented.
 
 
+(setq doom-localleader-key ","
+      doom-localleader-alt-key "M-,")
+
 ;; System locale to use for formatting time values.
 (setq system-time-locale "C")         ; Make sure that the weekdays in the
                                       ; time stamps of your Org mode files and
