@@ -235,7 +235,6 @@
 
 ;; Org-Journal
 ;; -----------
-(add-hook! 'org-journal-mode-hook #'org-indent-mode)
 (after! org-journal
   (setq org-journal-dir "~/org/notes/journal"
         org-journal-date-prefix "#+TITLE: "
