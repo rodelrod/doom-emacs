@@ -185,17 +185,20 @@
         '(("t" "todo" entry
             (file "inbox.org")
             "* TODO %?\n%U\n")
-          ("n" "note" entry
+          ("l" "todo with link" entry
             (file "inbox.org")
-            "* %?\n%U\n")
+            "* TODO %?\n%U\n%i\n%a\n")
+          ("n" "note wih link" entry
+            (file "inbox.org")
+            "* %?\n%U\n%i\n%a\n")
           ("p" "org-protocol" entry
             (file "inbox.org")
             "* %:annotation\n%U\n\n%i\n"
             :empty-lines 1
             :immediate-finish t)
           ("r" "weekly org review" entry
-            (file "weekly_reviews.org")
-            (file "~/org/templates/review.org"))))
+            (file "tasks/weekly_reviews.org")
+            (file "templates/weekly_review.org") :prepend t)))
 
   ;; Org-Roam
   ;; --------
