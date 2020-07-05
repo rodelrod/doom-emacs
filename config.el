@@ -183,16 +183,16 @@
   ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
   (setq org-capture-templates
         '(("t" "todo" entry
-            (file "inbox.org")
+            (file "tasks/inbox.org")
             "* TODO %?\n%U\n")
           ("l" "todo with link" entry
-            (file "inbox.org")
+            (file "tasks/inbox.org")
             "* TODO %?\n%U\n%i\n%a\n")
           ("n" "note wih link" entry
-            (file "inbox.org")
+            (file "tasks/inbox.org")
             "* %?\n%U\n%i\n%a\n")
           ("p" "org-protocol" entry
-            (file "inbox.org")
+            (file "tasks/inbox.org")
             "* %:annotation\n%U\n\n%i\n"
             :empty-lines 1
             :immediate-finish t)
