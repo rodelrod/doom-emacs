@@ -261,6 +261,7 @@
 
 ;; Org-Journal
 ;; -----------
+(add-hook! 'org-journal-after-entry-create-hook #'evil-insert-state)
 (after! org-journal
   (setq org-journal-dir "~/org/notes/journal"
         org-journal-date-prefix "#+TITLE: "
