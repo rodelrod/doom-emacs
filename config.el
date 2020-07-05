@@ -105,6 +105,8 @@
           [C-i] [?\C-i])))
 (map! :g [C-i] #'evil-jump-forward)
 
+;; Open org archive files in org-mode
+(add-to-list 'auto-mode-alist '("\\.org_archive\\'" . org-mode))
 ;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
 (add-hook! 'org-mode-hook #'(+org-pretty-mode doom-disable-line-numbers-h))
 (after! org
