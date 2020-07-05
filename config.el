@@ -204,7 +204,28 @@
   ;; --------
   (setq org-roam-tag-sources '(prop all-directories))
   (setq org-roam-directory "/data/Dropbox/Dropbox/Org/notes")
-
+  (setq org-roam-db-location "/data/Dropbox/Dropbox/Org/notes/db/org-roam.db")
+  (setq org-roam-capture-templates
+        '(("t" "topic" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "${slug}"
+           :head "#+title: ${title}\n"
+           :unnarrowed t)
+          ("l" "literature" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "literature/%<%Y%m>-${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :unnarrowed t)
+          ("p" "project" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "project/%<%Y%m>-${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :unnarrowed t)
+          ("m" "recurring meeting" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "meeting/%<%Y%m>-${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :unnarrowed t)))
 
   ;; Org: Personal Project Setup
   ;; ---------------------------
