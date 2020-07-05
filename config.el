@@ -178,7 +178,7 @@
 
   ;; Org-Capture
   ;; -----------
-  (setq org-default-notes-file "inbox.org")
+  (setq org-default-notes-file "tasks/inbox.org")
   ;; Get into insert state immediately after entering Capture
   ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
   (setq org-capture-templates
