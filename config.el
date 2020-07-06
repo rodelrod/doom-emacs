@@ -209,6 +209,7 @@
         '(("t" "topic" plain (function org-roam--capture-get-point)
            "%?"
            :file-name "${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
            :head "#+title: ${title}\n"
            :unnarrowed t)
           ("l" "literature" plain (function org-roam--capture-get-point)
