@@ -220,7 +220,7 @@
           ("p" "project" plain (function org-roam--capture-get-point)
            "%?"
            :file-name "project/%<%Y%m>-${slug}"
-           :head "#+title: ${title}\n#+created: %U\n"
+           :head "#+title: ${title}\n#+created: %U\n#+roam_tags: ffyn\n"
            :unnarrowed t)
           ("m" "recurring meeting" plain (function org-roam--capture-get-point)
            "%?"
