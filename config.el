@@ -226,7 +226,13 @@
            "%?"
            :file-name "meeting/%<%Y%m>-${slug}"
            :head "#+title: ${title}\n#+created: %U\n"
-           :unnarrowed t)))
+           :unnarrowed t)
+          ("w" "who" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "who/${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :unnarrowed t)
+          ))
 
   ;; Org: Personal Project Setup
   ;; ---------------------------
