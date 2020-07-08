@@ -236,7 +236,7 @@
             ("m" "recurring meeting" plain (function org-roam--capture-get-point)
              "%?"
              :file-name "meeting/%<%Y%m>-${slug}"
-             :head "#+title: ${title}\n#+created: %U\n"
+             :head "#+title: ${title}\n#+created: %U\n#+startup: overview\n"
              :unnarrowed t)
             ("w" "who" plain (function org-roam--capture-get-point)
              "%?"
