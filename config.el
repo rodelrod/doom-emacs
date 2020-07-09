@@ -56,8 +56,10 @@
 ;; they are implemented.
 
 
-(setq doom-localleader-key ","
-      doom-localleader-alt-key "M-,")
+
+;; Global Settings
+;; ===============
+
 
 ;; System locale to use for formatting time values.
 (setq system-time-locale "C")         ; Make sure that the weekdays in the
@@ -65,18 +67,19 @@
                                       ; in the agenda appear in English.
 (setq delete-by-moving-to-trash t)
 
-;; Custom key bindings
-;; ===================
 
-;; Use C-; to insert current datetime like in every other app
+(setq doom-localleader-key ","
+      doom-localleader-alt-key "M-,")
+
 (defun rodelrod/insert-timestamp ()
   "Insert current date time formatted like an org inactive timestamp."
   (interactive)
   (insert (format-time-string "[%Y-%m-%d %a %H:%M]")))
 (map! :nvie "C-;" 'rodelrod/insert-timestamp)
 
-;; org settings
-;; ============
+(map! :leader
+      :prefix "t"
+      :desc "Highlight current line" "h" #'hl-line-mode)
 
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
@@ -93,11 +96,10 @@
   '(outline-8 :weight semi-bold :height 1.06)
   '(outline-9 :weight semi-bold))
 
-;; The following code was committed (2020-05-11) then reverted (2020-05-13) from
-;; Doom Emacs. I needed to be able to jump back in Org files though.
-;;
 ;; HACK Emacs cannot distinguish C-i from TAB, which is disturbing. Instead,
 ;;      let's at least make GUI Emacs aware of this distinction:
+;; (This code was committed (2020-05-11) then reverted (2020-05-13) from
+;;  Doom Emacs. I need it to be able to jump back in Org files.)
 (define-key key-translation-map [?\C-i]
   (λ! (if (and (not (cl-position 'tab    (this-single-command-raw-keys)))
                (not (cl-position 'kp-tab (this-single-command-raw-keys)))
@@ -105,11 +107,19 @@
           [C-i] [?\C-i])))
 (map! :g [C-i] #'evil-jump-forward)
 
-;; Open org archive files in org-mode
-(add-to-list 'auto-mode-alist '("\\.org_archive\\'" . org-mode))
-;; +org-pretty-mode: Hide the ~tildes~ and =equals= of the world, as well as org entities
-(add-hook! 'org-mode-hook #'(+org-pretty-mode doom-disable-line-numbers-h))
-(after! org
+
+
+;; Package Configuration
+;; =====================
+
+
+(use-package! org
+  :mode "\\.org_archive\\'"
+  :init
+  (add-hook! 'org-mode-hook #'(+org-pretty-mode
+                               doom-disable-line-numbers-h))
+  :config
+  (setq org-archive-location "%s_archive::datetree/")
   (setq org-startup-folded 'content)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)")))
@@ -118,8 +128,6 @@
   (setq org-log-done t)
   ;; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
   (setq org-log-into-drawer t)
-  ;; Open narrowed indirect buffer in a new frame instead of re-using another window.
-  ;; This means I have to delete the buffers myself, or they'll just accumulate.
   (setq org-indirect-buffer-display 'new-frame)
 
   ;; Export to an `./exports' directory to prevent cluttering the main file and
@@ -133,117 +141,6 @@
     (apply orig-fun extension subtreep pub-dir nil))
   (advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)
 
-  ;; Org-Agenda
-  ;; ----------
-  (setq org-agenda-files (nconc
-                          (directory-files-recursively "~/org/tasks" "\.org$")
-                          (directory-files-recursively "~/org/notes/project" "\.org$")))
-  (setq org-agenda-custom-commands
-        '(("n" "Agenda, NEXT, and other TODOs"
-           ((agenda "" nil)
-            (todo "NEXT"
-                  ((org-agenda-overriding-header "Unscheduled NEXT items:")
-                   (org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
-            (todo "WAITING" nil)
-            )
-           nil)
-
-          ;; Last week entries sorted roughly by from latest to earliest (it's
-          ;; hard to sort by creation date, which is what I wanted).
-          ("l"  "Entries created last week"
-           tags "+TIMESTAMP_IA>\"<-1w>\""
-           ((org-agenda-sorting-strategy '(tsia-down timestamp-down))))
-
-          ;; Allow me to archive old items. I prefer archiving only level-2
-          ;; headings: Level-1 are Areas and Level-2 can be projects or odd
-          ;; tasks. I want to archive project trees in one go instead of
-          ;; having the tasks scattered in the Archive datetree.
-          ("r" "Tasks/Projects ready to archive (Level-2 items closed more than 2 months ago)"
-           tags "+CLOSED<\"<-2m>\"+LEVEL=2")))
-  ;; Function used to launch agenda on emacs client startup
-  (defun org-agenda-show-n (&optional arg)
-    (interactive "P")
-    (org-agenda arg "n"))
-
-  ;; Auto-save all org files on some org-agenda commands (feel free to add)
-  ;; based on https://emacs.stackexchange.com/a/7840 and https://emacs.stackexchange.com/a/489
-  (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
-  (advice-add 'org-archive-subtree :after 'org-save-all-org-buffers)
-  (advice-add 'org-refile :after 'org-save-all-org-buffers)
-  (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
-
-  ;; Org-Archive
-  ;; -----------
-  (setq org-archive-location "%s_archive::datetree/")
-
-  ;; Org-Capture
-  ;; -----------
-  (setq org-default-notes-file "tasks/inbox.org")
-  ;; Get into insert state immediately after entering Capture
-  ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
-  (setq org-capture-templates
-        '(("t" "todo" entry
-            (file "tasks/inbox.org")
-            "* TODO %?\n%U\n")
-          ("l" "todo with link" entry
-            (file "tasks/inbox.org")
-            "* TODO %?\n%U\n%i\n%a\n")
-          ("n" "note wih link" entry
-            (file "tasks/inbox.org")
-            "* %?\n%U\n%i\n%a\n")
-          ("p" "org-protocol" entry
-            (file "tasks/inbox.org")
-            "* %:annotation\n%U\n\n%i\n"
-            :empty-lines 1
-            :immediate-finish t)
-          ("r" "weekly org review" entry
-            (file "tasks/weekly_reviews.org")
-            (file "templates/weekly_review.org") :prepend t)))
-
-  ;; Org-Roam
-  ;; --------
-  (use-package! org-roam
-    :init
-    (map! :leader
-          :prefix "n"
-          :desc "Insert org-roam link" "i" #'org-roam-insert
-          :desc "Insert org-roam link immediately" "I" #'org-roam-insert-immediate
-          :desc "Switch to org-roam buffer" "b" #'org-roam-switch-to-buffer
-          :desc "Find in org-roam notes" "f" #'org-roam-find-file
-          :desc "Find in all notes" "F" #'+default/find-in-notes
-          :desc "org-roam-show-graph" "g" #'org-roam-show-graph)
-    (setq org-roam-directory "/data/Dropbox/Dropbox/Org/notes"
-          org-roam-db-location "/data/Dropbox/Dropbox/Org/notes/db/org-roam.db"
-          org-roam-tag-sources '(prop all-directories))
-    :config
-    (setq org-roam-capture-templates
-          '(("t" "topic" plain (function org-roam--capture-get-point)
-             "%?"
-             :file-name "${slug}"
-             :head "#+title: ${title}\n#+created: %U\n"
-             :head "#+title: ${title}\n"
-             :unnarrowed t)
-            ("l" "literature" plain (function org-roam--capture-get-point)
-             "%?"
-             :file-name "literature/%<%Y%m>-${slug}"
-             :head "#+title: ${title}\n#+created: %U\n"
-             :unnarrowed t)
-            ("p" "project" plain (function org-roam--capture-get-point)
-             "%?"
-             :file-name "project/%<%Y%m>-${slug}"
-             :head "#+title: ${title}\n#+created: %U\n"
-             :unnarrowed t)
-            ("m" "recurring meeting" plain (function org-roam--capture-get-point)
-             "%?"
-             :file-name "meeting/%<%Y%m>-${slug}"
-             :head "#+title: ${title}\n#+created: %U\n#+startup: overview\n"
-             :unnarrowed t)
-            ("w" "who" plain (function org-roam--capture-get-point)
-             "%?"
-             :file-name "who/${slug}"
-             :head "#+title: ${title}\n#+created: %U\n"
-             :unnarrowed t)
-            )))
 
   ;; Org: Personal Project Setup
   ;; ---------------------------
@@ -277,23 +174,134 @@
     (when (equal property "ProjectState") '("ACTIVE" "MUTED")))
   (add-hook 'org-property-allowed-value-functions 'org-property-set-allowed-project-states))
 
-;; Org-Journal
-;; -----------
-(add-hook! 'org-journal-after-entry-create-hook #'evil-insert-state)
-(after! org-journal
+
+(after! org-capture
+  (setq org-default-notes-file "tasks/inbox.org")
+  ;; Get into insert state immediately after entering Capture
+  ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
+  (setq org-capture-templates
+        '(("t" "todo" entry
+            (file "tasks/inbox.org")
+            "* TODO %?\n%U\n")
+          ("l" "todo with link" entry
+            (file "tasks/inbox.org")
+            "* TODO %?\n%U\n%i\n%a\n")
+          ("n" "note wih link" entry
+            (file "tasks/inbox.org")
+            "* %?\n%U\n%i\n%a\n")
+          ("p" "org-protocol" entry
+            (file "tasks/inbox.org")
+            "* %:annotation\n%U\n\n%i\n"
+            :empty-lines 1
+            :immediate-finish t)
+          ("r" "weekly org review" entry
+            (file "tasks/weekly_reviews.org")
+            (file "templates/weekly_review.org") :prepend t))))
+
+
+(after! org-agenda
+  (setq org-agenda-files (nconc
+                          (directory-files-recursively "~/org/tasks" "\.org$")
+                          (directory-files-recursively "~/org/notes/project" "\.org$")))
+  (setq org-agenda-custom-commands
+        '(("n" "Agenda, NEXT, and other TODOs"
+           ((agenda "" nil)
+            (todo "NEXT"
+                  ((org-agenda-overriding-header "Unscheduled NEXT items:")
+                   (org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
+            (todo "WAITING" nil)
+            )
+           nil)
+
+          ;; Last week entries sorted roughly by from latest to earliest (it's
+          ;; hard to sort by creation date, which is what I wanted).
+          ("l"  "Entries created last week"
+           tags "+TIMESTAMP_IA>\"<-1w>\""
+           ((org-agenda-sorting-strategy '(tsia-down timestamp-down))))
+
+          ;; Allow me to archive old items. I prefer archiving only level-2
+          ;; headings: Level-1 are Areas and Level-2 can be projects or odd
+          ;; tasks. I want to archive project trees in one go instead of
+          ;; having the tasks scattered in the Archive datetree.
+          ("r" "Tasks/Projects ready to archive (Level-2 items closed more than 2 months ago)"
+           tags "+CLOSED<\"<-2m>\"+LEVEL=2")))
+
+  ;; Function used to launch agenda on emacs client startup
+  (defun org-agenda-show-n (&optional arg)
+    (interactive "P")
+    (org-agenda arg "n")))
+
+
+(after! (org-agenda org-capture)
+  ;; Auto-save all org files on some org-agenda commands (feel free to add)
+  ;; based on https://emacs.stackexchange.com/a/7840 and https://emacs.stackexchange.com/a/489
+  (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
+  (advice-add 'org-archive-subtree :after 'org-save-all-org-buffers)
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+  (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
+  )
+
+
+(use-package! org-roam
+  :init
+  (map! :leader
+        :prefix "n"
+        :desc "Insert org-roam link" "i" #'org-roam-insert
+        :desc "Insert org-roam link immediately" "I" #'org-roam-insert-immediate
+        :desc "Switch to org-roam buffer" "b" #'org-roam-switch-to-buffer
+        :desc "Find in org-roam notes" "f" #'org-roam-find-file
+        :desc "Find in all notes" "F" #'+default/find-in-notes
+        :desc "org-roam-show-graph" "g" #'org-roam-show-graph)
+  (setq org-roam-directory "/data/Dropbox/Dropbox/Org/notes"
+        org-roam-db-location "/data/Dropbox/Dropbox/Org/notes/db/org-roam.db"
+        org-roam-tag-sources '(prop all-directories))
+  :config
+  (setq org-roam-capture-templates
+        '(("t" "topic" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :head "#+title: ${title}\n"
+           :unnarrowed t)
+          ("l" "literature" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "literature/%<%Y%m>-${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :unnarrowed t)
+          ("p" "project" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "project/%<%Y%m>-${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :unnarrowed t)
+          ("m" "recurring meeting" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "meeting/%<%Y%m>-${slug}"
+           :head "#+title: ${title}\n#+created: %U\n#+startup: overview\n"
+           :unnarrowed t)
+          ("w" "who" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "who/${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :unnarrowed t)
+          )))
+
+
+(use-package! org-journal
+  :init
+  (map! :leader
+        :desc "Today's file"
+        "n j t" #'org-journal-open-current-journal-file)
+  :config
   (setq org-journal-dir "~/org/notes/journal"
         org-journal-date-prefix "#+TITLE: "
         org-journal-date-format "%A W%V, %d %B %Y"
         org-journal-time-format "[%Y-%m-%d %H:%M] "   ; make it easier to refile preserving data
         org-journal-file-format "%Y-%m-%d.org"
         org-journal-carryover-items nil)
-  (add-to-list '+word-wrap-visual-modes 'org-journal-mode)
-  (map! :leader
-        :desc "Today's file"
-        "n j t" #'org-journal-open-current-journal-file))
+  (add-hook! 'org-journal-after-entry-create-hook #'evil-insert-state)
+  (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
 
-;; Org-Rifle
-;; ---------
+
 (use-package! helm-org-rifle
   :init
   (map! :leader
@@ -301,5 +309,4 @@
   :config
   ;; show path to header in search results
   (setq helm-org-rifle-show-path t)
-  (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil)
-  )
+  (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil))
