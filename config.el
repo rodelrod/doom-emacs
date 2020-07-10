@@ -306,3 +306,11 @@
   ;; show path to header in search results
   (setq helm-org-rifle-show-path t)
   (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil))
+
+
+(use-package! writeroom-mode
+  :config
+  (defun rodelrod/opposing-modes ()
+    "Deactivate highlighting current line entering writeroom mode and reactivate upon exit"
+     (if writeroom-mode (hl-line-mode -1) (hl-line-mode)))
+  (add-hook 'writeroom-mode-hook #'rodelrod/opposing-modes))
