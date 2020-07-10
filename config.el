@@ -1,11 +1,5 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
 (setq user-full-name "Rodrigo Eliseu"
       user-mail-address "rodrigo@eliseu.me")
 
@@ -29,9 +23,6 @@
 (setq doom-theme 'doom-opera)
 ;; (setq doom-theme 'doom-nord-light)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -57,8 +48,8 @@
 
 
 
-;; Global Settings
-;; ===============
+;;
+;;; Global Settings
 
 
 ;; System locale to use for formatting time values.
@@ -109,26 +100,26 @@
 
 
 
-;; Package Configuration
-;; =====================
+;;
+;;; Package Configuration
 
 
 (use-package! org
   :mode "\\.org_archive\\'"
   :init
+  (setq org-directory "~/org/")
   (add-hook! 'org-mode-hook #'(+org-pretty-mode
                                doom-disable-line-numbers-h))
   :config
-  (setq org-archive-location "%s_archive::datetree/")
-  (setq org-startup-folded 'content)
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)")))
-  (setq org-enforce-todo-dependencies t)
-  ;; Add CLOSED timestamp when todo is done
-  (setq org-log-done t)
-  ;; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
-  (setq org-log-into-drawer t)
-  (setq org-indirect-buffer-display 'new-frame)
+  (setq org-archive-location "%s_archive::datetree/"
+        org-startup-folded 'content
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)"))
+        org-enforce-todo-dependencies t
+        org-log-done t                                ; Add CLOSED timestamp when todo is done
+        org-log-into-drawer t                         ; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
+        org-indirect-buffer-display 'new-frame
+        org-list-indent-offset 1                      ; indent plain lists with 3 spaces
+        tab-width 3)
 
   ;; Export to an `./exports' directory to prevent cluttering the main file and
   ;; allow to easily exclude from git.
@@ -142,24 +133,25 @@
   (advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)
 
 
-  ;; Org: Personal Project Setup
-  ;; ---------------------------
+  ;;
+  ;; ProjectState Property
+  ;; ---
+  ;; The ProjectState property is set automatically on every heading that has a
+  ;; statistics cookie.
 
-  ;; Org-Stuck-Projects
-  ;; List as stuck project if ProjectState property is ACTIVE but it has no
-  ;; sub-task marked as NEXT; except if project is marked as a SOMEDAY, DONE
-  ;; or CANCELLED todo item. The ProjectState property is set automatically on
-  ;; every heading that has a statistics cookie.
-  (setq org-stuck-projects
-        '("+ProjectState=\"ACTIVE\"/-SOMEDAY-DONE-CANCELLED" ("NEXT") nil ""))
+  ;; Set ACTIVE and MUTED as allowed values for ProjectState
+  (defun org-property-set-allowed-project-states (property)
+    "Set allowed valued for the ProjectState property."
+    (when (equal property "ProjectState") '("ACTIVE" "MUTED")))
+  (add-hook 'org-property-allowed-value-functions 'org-property-set-allowed-project-states)
 
-  ;; Toggle ProjectState in headings with a statistic cookie between
-  ;; ACTIVE (if it contains at least one subtask to be done) and
-  ;; MUTED (if there's no subtask to be done).
+  ;;  Set ProjectState automatically to:
+  ;;  - ACTIVE: if the heading contains at least one subtask to be done
+  ;;  - MUTED: if there's no subtask to be done
   (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to DONE when all subentries are done, to TODO otherwise."
-    ;; We want to shadow a couple of variables to turn off loggin below, but
-    ;; since lexical binding is on in this file, we need to force dynamic
+    "Switch entry to ~n-done~ when all subentries are done, to ~n-not-done~ otherwise."
+    ;; HACK: We want to shadow a couple of variables to turn off loggin below,
+    ;; but since lexical binding is on in this file, we need to force dynamic
     ;; binding using defvar.
     (defvar org-log-done)
     (defvar org-log-states)
@@ -168,11 +160,12 @@
     (ignore n-done))   ; reassure the bytecomp that we know we're not using the variable
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
-  ;; Set ACTIVE and MUTED as allowed values for ProjectState
-  (defun org-property-set-allowed-project-states (property)
-    "Set allowed valued for the ProjectState property."
-    (when (equal property "ProjectState") '("ACTIVE" "MUTED")))
-  (add-hook 'org-property-allowed-value-functions 'org-property-set-allowed-project-states))
+  ;; List as stuck project if ProjectState property is ACTIVE but it has no
+  ;; sub-task marked as NEXT; except if project is marked as a SOMEDAY, DONE
+  ;; or CANCELLED todo item.
+  (setq org-stuck-projects
+        '("+ProjectState=\"ACTIVE\"/-SOMEDAY-DONE-CANCELLED" ("NEXT") nil ""))
+  )
 
 
 (after! org-capture
