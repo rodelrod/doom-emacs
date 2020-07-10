@@ -85,7 +85,9 @@
   '(outline-5 :weight semi-bold :height 1.12)
   '(outline-6 :weight semi-bold :height 1.09)
   '(outline-8 :weight semi-bold :height 1.06)
-  '(outline-9 :weight semi-bold))
+  '(outline-9 :weight semi-bold)
+  ;; '(org-ellipsis :distant-foreground "dim gray")
+  )
 
 ;; HACK Emacs cannot distinguish C-i from TAB, which is disturbing. Instead,
 ;;      let's at least make GUI Emacs aware of this distinction:
@@ -113,6 +115,7 @@
   :config
   (setq org-archive-location "%s_archive::datetree/"
         org-startup-folded 'content
+        org-ellipsis " ▼ "
         org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)"))
         org-enforce-todo-dependencies t
         org-log-done t                                ; Add CLOSED timestamp when todo is done
