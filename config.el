@@ -250,7 +250,8 @@
         :desc "org-roam-graph" "g" #'org-roam-show-graph)
   (setq org-roam-directory "/data/Dropbox/Dropbox/Org/notes"
         org-roam-db-location "/data/Dropbox/Dropbox/Org/notes/db/org-roam.db"
-        org-roam-tag-sources '(prop all-directories))
+        org-roam-tag-sources '(prop all-directories)
+        org-roam-graph-exclude-matcher "journal/")
   :config
   (setq org-roam-capture-templates
         '(("t" "topic" plain (function org-roam--capture-get-point)
