@@ -311,7 +311,8 @@
 
 (use-package! writeroom-mode
   :config
-  (defun rodelrod/opposing-modes ()
+  (setq +zen-text-scale 1)  ; default 2 was a bit too big
+  (defun rodelrod/switch-off-hl-line ()
     "Deactivate highlighting current line entering writeroom mode and reactivate upon exit"
-     (if writeroom-mode (hl-line-mode -1) (hl-line-mode)))
-  (add-hook 'writeroom-mode-hook #'rodelrod/opposing-modes))
+     (hl-line-mode (if writeroom-mode -1 +1)))
+  (add-hook 'writeroom-mode-hook #'rodelrod/switch-off-hl-line))
