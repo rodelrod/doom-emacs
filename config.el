@@ -135,6 +135,17 @@
     (apply orig-fun extension subtreep pub-dir nil))
   (advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)
 
+  (defun rodelrod/convert-evernote-dates-to-org-timestamp ()
+    "Convert all Evernote formatted dates in the current buffer to org-mode inactive timestamps"
+    (interactive)
+    (let ((evernote_data_regex
+           "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\([0-9]\\{2\\}:[0-9]\\{2\\}\\)\\( --\\)?")
+          (org_mode_replacement
+           "[\\3-\\2-\\1 \\4]"))
+      (goto-char (point-min))
+      (while (re-search-forward evernote_data_regex nil t)
+        (replace-match org_mode_replacement))))
+
 
   ;;
   ;; ProjectState Property
