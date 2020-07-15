@@ -89,6 +89,9 @@
 (map! :g [C-i] #'evil-jump-forward)
 
 
+;; Switch to the new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
 
 
 
