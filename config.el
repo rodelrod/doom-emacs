@@ -115,6 +115,13 @@
 (map! :desc "Use extra mouse button to go back" [mouse-8] #'previous-buffer
       :desc "Use extra mouse button to go forward" [mouse-9] #'next-buffer)
 
+;; Mimic my neotree keydingins on vim for the sake of muscle memory
+(map! :map evil-window-map
+      :desc "Toggle treemacs" "e" #'+treemacs/toggle
+      :desc "Toggle treemacs" "C-e" #'+treemacs/toggle)
+
+
+
 ;;
 ;;; Package Configuration
 
