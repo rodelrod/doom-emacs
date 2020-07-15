@@ -59,18 +59,6 @@
 (setq delete-by-moving-to-trash t)
 
 
-(setq doom-localleader-key ","
-      doom-localleader-alt-key "M-,")
-
-(defun rodelrod/insert-timestamp ()
-  "Insert current date time formatted like an org inactive timestamp."
-  (interactive)
-  (insert (format-time-string "[%Y-%m-%d %a %H:%M]")))
-(map! :nvie "C-;" 'rodelrod/insert-timestamp)
-
-(map! :leader
-      :prefix "t"
-      :desc "Highlight current line" "h" #'hl-line-mode)
 
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
@@ -101,6 +89,25 @@
 (map! :g [C-i] #'evil-jump-forward)
 
 
+
+
+
+;;
+;;; Global Keybindings
+
+
+(setq doom-localleader-key ","
+      doom-localleader-alt-key "M-,")
+
+(defun rodelrod/insert-timestamp ()
+  "Insert current date time formatted like an org inactive timestamp."
+  (interactive)
+  (insert (format-time-string "[%Y-%m-%d %a %H:%M]")))
+(map! :nvie "C-;" 'rodelrod/insert-timestamp)
+
+(map! :leader
+      :prefix "t"
+      :desc "Highlight current line" "h" #'hl-line-mode)
 
 ;;
 ;;; Package Configuration
