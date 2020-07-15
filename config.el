@@ -112,6 +112,9 @@
       :prefix "t"
       :desc "Highlight current line" "h" #'hl-line-mode)
 
+(map! :desc "Use extra mouse button to go back" [mouse-8] #'previous-buffer
+      :desc "Use extra mouse button to go forward" [mouse-9] #'next-buffer)
+
 ;;
 ;;; Package Configuration
 
