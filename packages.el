@@ -51,3 +51,5 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! helm-org-rifle)
+;; eglot instead of lsp
+(package! eglot)
