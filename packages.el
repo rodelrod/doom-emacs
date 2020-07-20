@@ -53,3 +53,4 @@
 (package! helm-org-rifle)
 ;; eglot instead of lsp
 (package! eglot)
+(package! blacken)

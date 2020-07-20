@@ -350,3 +350,7 @@
     "Deactivate highlighting current line entering writeroom mode and reactivate upon exit"
      (hl-line-mode (if writeroom-mode -1 +1)))
   (add-hook 'writeroom-mode-hook #'rodelrod/switch-off-hl-line))
+
+
+(after! blacken
+  (setq blacken-skip-string-normalization t))
