@@ -120,6 +120,9 @@
       :desc "Toggle treemacs" "e" #'+treemacs/toggle
       :desc "Toggle treemacs" "C-e" #'+treemacs/toggle)
 
+;; Fix an ommission from treemacs-evil (https://github.com/Alexander-Miller/treemacs/issues/700)
+(map! :map evil-treemacs-state-map "s" #'treemacs-resort)
+
 
 
 ;;
