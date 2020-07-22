@@ -283,8 +283,8 @@
         :desc "Find in org-roam notes" "f" #'org-roam-find-file
         :desc "Find in all notes" "F" #'+default/find-in-notes
         :desc "org-roam-graph" "g" #'org-roam-show-graph)
-  (setq org-roam-directory "/data/Dropbox/Dropbox/Org/notes"
-        org-roam-db-location "/data/Dropbox/Dropbox/Org/notes/db/org-roam.db"
+  (setq org-roam-directory "~/org/notes"
+        org-roam-db-location "~/org/notes/db/org-roam.db"
         org-roam-tag-sources '(prop all-directories)
         org-roam-graph-exclude-matcher "journal/")
   :config
