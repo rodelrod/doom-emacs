@@ -332,7 +332,8 @@
 (use-package! helm-org-rifle
   :init
   (map! :leader
-        "o r" 'helm-org-rifle-agenda-files)
+        :desc "Rifle through agenda files" "r a" 'helm-org-rifle-agenda-files
+        :desc "Rifle through org directory" "r o" 'helm-org-rifle-org-directory)
   :config
   ;; show path to header in search results
   (setq helm-org-rifle-show-path t)
