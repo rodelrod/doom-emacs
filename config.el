@@ -120,10 +120,6 @@
       :desc "Toggle treemacs" "e" #'+treemacs/toggle
       :desc "Toggle treemacs" "C-e" #'+treemacs/toggle)
 
-;; Recover treemacs-resort mapping to "s"
-(after! evil-snipe
-  (add-to-list 'evil-snipe-disabled-modes 'treemacs-mode))
-
 
 
 ;;
