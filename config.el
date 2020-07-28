@@ -106,7 +106,7 @@
   "Insert current date time formatted like an org inactive timestamp."
   (interactive)
   (insert (format-time-string "[%Y-%m-%d %a %H:%M]")))
-(map! :nvie "C-;" 'rodelrod/insert-timestamp)
+(map! :desc "Insert inactive timestamp" :nvie "C-'" 'rodelrod/insert-timestamp)
 
 (map! :leader
       :prefix "t"
@@ -114,6 +114,9 @@
 
 (map! :desc "Use extra mouse button to go back" [mouse-8] #'previous-buffer
       :desc "Use extra mouse button to go forward" [mouse-9] #'next-buffer)
+
+(map! :desc "Avy jump in this window" "C-;" #'evil-avy-goto-char-timer)
+(setq avy-single-candidate-jump t)
 
 ;; Mimic my neotree keybindings on vim for the sake of muscle memory
 (map! :map evil-window-map
