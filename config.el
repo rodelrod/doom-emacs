@@ -145,7 +145,8 @@
         org-log-into-drawer t                         ; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
         org-indirect-buffer-display 'new-frame
         org-list-indent-offset 1                      ; indent plain lists with 3 spaces
-        tab-width 3)
+        tab-width 3
+        org-id-link-to-org-use-id 'use-existing)
 
   ;; Export to an `./exports' directory to prevent cluttering the main file and
   ;; allow to easily exclude from git.
