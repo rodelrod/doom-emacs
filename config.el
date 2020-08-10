@@ -291,7 +291,7 @@
   (setq org-roam-capture-templates
         '(("t" "topic" plain (function org-roam--capture-get-point)
            "%?"
-           :file-name "${slug}"
+           :file-name "topic/${slug}"
            :head "#+title: ${title}\n#+created: %U\n"
            :unnarrowed t)
           ("l" "literature" plain (function org-roam--capture-get-point)
