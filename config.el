@@ -218,8 +218,7 @@
   ;; sub-task marked as NEXT; except if project is marked as a SOMEDAY, DONE
   ;; or CANCELLED todo item.
   (setq org-stuck-projects
-        '("+ProjectState=\"ACTIVE\"/-SOMEDAY-DONE-CANCELLED" ("NEXT") nil ""))
-  )
+        '("+ProjectState=\"ACTIVE\"/-SOMEDAY-DONE-CANCELLED" ("NEXT") nil "")))
 
 
 (after! org-capture
