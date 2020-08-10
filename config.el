@@ -233,7 +233,8 @@
 (after! org-agenda
   (setq org-agenda-files (nconc
                           (directory-files-recursively "~/org/tasks" "\.org$")
-                          (directory-files-recursively "~/org/notes/project" "\.org$")))
+                          (directory-files-recursively "~/org/notes/project" "\.org$")
+                          (directory-files-recursively "~/org/notes/area" "\.org$")))
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
@@ -302,6 +303,11 @@
           ("p" "project" plain (function org-roam--capture-get-point)
            "%?"
            :file-name "project/%<%Y%m>-${slug}"
+           :head "#+title: ${title}\n#+created: %U\n"
+           :unnarrowed t)
+          ("a" "area" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "area/%<%Y%m>-${slug}"
            :head "#+title: ${title}\n#+created: %U\n"
            :unnarrowed t)
           ("m" "recurring meeting" plain (function org-roam--capture-get-point)
