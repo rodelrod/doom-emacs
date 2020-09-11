@@ -179,6 +179,22 @@ Assumes millisecond timestamps."
         tab-width 3
         org-id-link-to-org-use-id 'use-existing)
 
+  ;; Emacs wants to open everything in emacs, but many times I just want
+  ;; the system default.
+  (setq org-file-apps
+        '((auto-mode . emacs)
+          (directory . emacs)
+          ;; `setsid' is needed to keep the child process alive when xdg-open
+          ;; hands over to the default application that actually opens the file
+          (system . "setsid -w xdg-open %s")
+          ("\\.mm\\'" . default)
+          ("\\.x?html?\\'" . default)
+          ("\\.pdf\\'" . default)
+          ("\\.png\\'" . system)
+          ("\\.jpg\\'" . system)
+          ("\\.svg\\'" . system)
+          ))
+
   ;; Export to an `./exports' directory to prevent cluttering the main file and
   ;; allow to easily exclude from git.
   ;; Adapted from https://stackoverflow.com/a/47850858/20989
