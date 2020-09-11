@@ -100,8 +100,8 @@
 
 
 (defun rodelrod/json-timestamp-to-iso ()
-  "Echoes the ISO data time version of the json timestamp under the cursor or selected.
-   Assumes millisecond timestamps."
+  "Echo the ISO data time version of the json timestamp under the cursor or selected.
+Assumes millisecond timestamps."
   (interactive)
   (let (timestamp)
     (setq timestamp (string-to-number (doom-thing-at-point-or-region 'word)))
