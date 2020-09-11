@@ -160,6 +160,21 @@ Assumes millisecond timestamps."
 ;;; Package Configuration
 
 
+(after! blacken
+  (setq blacken-skip-string-normalization t))
+
+
+(use-package! helm-org-rifle
+  :init
+  (map! :leader
+        :desc "Rifle through agenda files" "r a" 'helm-org-rifle-agenda-files
+        :desc "Rifle through org directory" "r o" 'helm-org-rifle-org-directory)
+  :config
+  ;; show path to header in search results
+  (setq helm-org-rifle-show-path t)
+  (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil))
+
+
 (use-package! org
   :mode "\\.org_archive\\'"
   :init
@@ -252,30 +267,6 @@ Assumes millisecond timestamps."
         '("+ProjectState=\"ACTIVE\"/-SOMEDAY-DONE-CANCELLED" ("NEXT") nil "")))
 
 
-(after! org-capture
-  (setq org-default-notes-file "tasks/inbox.org")
-  ;; Get into insert state immediately after entering Capture
-  ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
-  (setq org-capture-templates
-        '(("t" "todo" entry
-            (file "tasks/inbox.org")
-            "* TODO %?\n%U\n")
-          ("l" "todo with link" entry
-            (file "tasks/inbox.org")
-            "* TODO %?\n%U\n%i\n%a\n")
-          ("n" "note wih link" entry
-            (file "tasks/inbox.org")
-            "* %?\n%U\n%i\n%a\n")
-          ("p" "org-protocol" entry
-            (file "tasks/inbox.org")
-            "* %:annotation\n%U\n\n%i\n"
-            :empty-lines 1
-            :immediate-finish t)
-          ("r" "weekly org review" entry
-            (file "tasks/weekly_reviews.org")
-            (file "templates/weekly_review.org") :prepend t))))
-
-
 (after! org-agenda
   (setq org-agenda-files (nconc
                           (directory-files-recursively "~/org/tasks" "\.org$")
@@ -311,6 +302,30 @@ Assumes millisecond timestamps."
     (org-agenda arg "n")))
 
 
+(after! org-capture
+  (setq org-default-notes-file "tasks/inbox.org")
+  ;; Get into insert state immediately after entering Capture
+  ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
+  (setq org-capture-templates
+        '(("t" "todo" entry
+            (file "tasks/inbox.org")
+            "* TODO %?\n%U\n")
+          ("l" "todo with link" entry
+            (file "tasks/inbox.org")
+            "* TODO %?\n%U\n%i\n%a\n")
+          ("n" "note wih link" entry
+            (file "tasks/inbox.org")
+            "* %?\n%U\n%i\n%a\n")
+          ("p" "org-protocol" entry
+            (file "tasks/inbox.org")
+            "* %:annotation\n%U\n\n%i\n"
+            :empty-lines 1
+            :immediate-finish t)
+          ("r" "weekly org review" entry
+            (file "tasks/weekly_reviews.org")
+            (file "templates/weekly_review.org") :prepend t))))
+
+
 (after! (org-agenda org-capture)
   ;; Auto-save all org files on some org-agenda commands (feel free to add)
   ;; based on https://emacs.stackexchange.com/a/7840 and https://emacs.stackexchange.com/a/489
@@ -319,6 +334,22 @@ Assumes millisecond timestamps."
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
   (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
   )
+
+
+(use-package! org-journal
+  :init
+  (map! :leader
+        :desc "Today's file"
+        "n j t" #'org-journal-open-current-journal-file)
+  :config
+  (setq org-journal-dir "~/org/notes/journal"
+        org-journal-date-prefix "#+TITLE: "
+        org-journal-date-format "%A W%V, %d %B %Y"
+        org-journal-time-format "[%Y-%m-%d %H:%M] "   ; make it easier to refile preserving data
+        org-journal-file-format "%Y-%m-%d.org"
+        org-journal-carryover-items nil)
+  (add-hook! 'org-journal-after-entry-create-hook #'evil-insert-state)
+  (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
 
 
 (use-package! org-roam
@@ -370,33 +401,6 @@ Assumes millisecond timestamps."
           )))
 
 
-(use-package! org-journal
-  :init
-  (map! :leader
-        :desc "Today's file"
-        "n j t" #'org-journal-open-current-journal-file)
-  :config
-  (setq org-journal-dir "~/org/notes/journal"
-        org-journal-date-prefix "#+TITLE: "
-        org-journal-date-format "%A W%V, %d %B %Y"
-        org-journal-time-format "[%Y-%m-%d %H:%M] "   ; make it easier to refile preserving data
-        org-journal-file-format "%Y-%m-%d.org"
-        org-journal-carryover-items nil)
-  (add-hook! 'org-journal-after-entry-create-hook #'evil-insert-state)
-  (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
-
-
-(use-package! helm-org-rifle
-  :init
-  (map! :leader
-        :desc "Rifle through agenda files" "r a" 'helm-org-rifle-agenda-files
-        :desc "Rifle through org directory" "r o" 'helm-org-rifle-org-directory)
-  :config
-  ;; show path to header in search results
-  (setq helm-org-rifle-show-path t)
-  (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil))
-
-
 (use-package! writeroom-mode
   :config
   (setq +zen-text-scale 1)  ; default 2 was a bit too big
@@ -404,7 +408,3 @@ Assumes millisecond timestamps."
     "Deactivate highlighting current line entering writeroom mode and reactivate upon exit"
      (hl-line-mode (if writeroom-mode -1 +1)))
   (add-hook 'writeroom-mode-hook #'rodelrod/switch-off-hl-line))
-
-
-(after! blacken
-  (setq blacken-skip-string-normalization t))
