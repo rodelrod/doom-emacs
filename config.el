@@ -99,6 +99,21 @@
 ;;; Utils
 
 
+(defun rodelrod/evernote-date-to-org-timestamp ()
+  "Convert Evernote date under or behind cursor with an org inactive timestamp.
+Only looks in the current line and replaces the closest match."
+  (interactive)
+  (let ((evernote-data-regex
+         "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\([0-9]\\{2\\}:[0-9]\\{2\\}\\)\\( --\\)?")
+        (org-mode-replacement
+         "[\\3-\\2-\\1 \\4]"))
+    (save-excursion
+      (while (and
+              (>= (point) (line-beginning-position))
+              (not (looking-at evernote-data-regex)))
+        (backward-word))
+      (replace-match org-mode-replacement))))
+
 (defun rodelrod/json-timestamp-to-iso ()
   "Echo the ISO data time version of the json timestamp under the cursor or selected.
 Assumes millisecond timestamps."
