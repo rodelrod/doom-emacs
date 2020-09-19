@@ -124,6 +124,21 @@ Assumes millisecond timestamps."
      (format-time-string "%Y-%m-%d %H:%M:%S"
                          (seconds-to-time (/ timestamp 1000))))))
 
+;; From https://ivanaf.com/emacs_drag-drop_pdfs_paste_html_custom_templates.html
+(defun html2org-clipboard ()
+  "Convert clipboard contents from HTML to Org and then paste (yank)."
+  (interactive)
+  (let* (
+       (text_html (gui-backend-get-selection 'PRIMARY 'text/html))
+       (text_raw (gui-get-selection))
+       (text_html (when text_html
+                    (decode-coding-string text_html 'unix)))
+       (text_html (when text_html
+                    (shell-command-to-string (concat "echo "  (shell-quote-argument text_html) "|timeout 2  pandoc -f html-native_divs-native_spans -t org"))))
+       (text (or text_html
+               text_raw))
+       )
+    (progn  (kill-new text) (yank))))
 
 
 ;;
