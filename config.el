@@ -52,13 +52,13 @@
 ;;; Global Settings
 
 
-;; System locale to use for formatting time values.
-(setq system-time-locale "C")         ; Make sure that the weekdays in the
-                                      ; time stamps of your Org mode files and
-                                      ; in the agenda appear in English.
-(setq delete-by-moving-to-trash t)
+(setq delete-by-moving-to-trash t
+      auto-save-default t)
 
-
+;; System locale to use for formatting time values.  Make sure that the weekdays
+;; in the time stamps of your Org mode files and in the agenda appear in
+;; English.
+(setq system-time-locale "C")
 
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
