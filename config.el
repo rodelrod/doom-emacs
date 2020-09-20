@@ -209,6 +209,19 @@ Assumes millisecond timestamps."
         tab-width 3
         org-id-link-to-org-use-id 'use-existing)
 
+  ;; Use the fold prefix `z' for outline navigation
+  ;; and recover `gk' and `gj' for visual line up and down
+  (map! :map org-mode-map
+
+        :prefix "z"
+        :n "j" #'org-forward-heading-same-level
+        :n "k" #'org-backward-heading-same-level
+        :n "h" #'org-up-element
+
+        :prefix "g"
+        :n "j" #'evil-next-visual-line
+        :n "k" #'evil-previous-visual-line)
+
 
   ;; Override company-org-roam, which was deprecated but this was not updated in Doom
   (set-company-backend! 'org-mode '(company-capf))
