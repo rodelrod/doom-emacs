@@ -319,7 +319,8 @@ Assumes millisecond timestamps."
           ;; tasks. I want to archive project trees in one go instead of
           ;; having the tasks scattered in the Archive datetree.
           ("r" "Tasks/Projects ready to archive (Level-2 items closed more than 2 months ago)"
-           tags "+CLOSED<\"<-2m>\"+LEVEL=2")))
+           tags "+CLOSED<\"<-2m>\"+LEVEL=2"
+           ((org-agenda-files '("~/org/tasks"))))))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
