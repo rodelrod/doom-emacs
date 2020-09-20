@@ -209,6 +209,10 @@ Assumes millisecond timestamps."
         tab-width 3
         org-id-link-to-org-use-id 'use-existing)
 
+
+  ;; Override company-org-roam, which was deprecated but this was not updated in Doom
+  (set-company-backend! 'org-mode '(company-capf))
+
   ;; Emacs wants to open everything in emacs, but many times I just want
   ;; the system default.
   (setq org-file-apps
