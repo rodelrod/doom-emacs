@@ -145,9 +145,6 @@ Assumes millisecond timestamps."
 ;;; Global Keybindings
 
 
-(setq doom-localleader-key ","
-      doom-localleader-alt-key "M-,")
-
 (defun rodelrod/insert-timestamp ()
   "Insert current date time formatted like an org inactive timestamp."
   (interactive)
