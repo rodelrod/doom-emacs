@@ -88,7 +88,6 @@
           [C-i] [?\C-i])))
 (map! :g [C-i] #'evil-jump-forward)
 
-
 ;; Switch to the new window after splitting
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
@@ -165,7 +164,6 @@ Assumes millisecond timestamps."
 (map! :map evil-window-map
       :desc "Toggle treemacs" "e" #'+treemacs/toggle
       :desc "Toggle treemacs" "C-e" #'+treemacs/toggle)
-
 
 
 ;;
