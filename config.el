@@ -297,11 +297,7 @@ Assumes millisecond timestamps."
 
 
 (after! org-agenda
-  (setq org-agenda-files (nconc
-                          (directory-files-recursively "~/org/tasks" "\.org$")
-                          ;; include non-archived org-roam sub-directories
-                          (directory-files "~/org/notes/project" t "\.org$")
-                          (directory-files "~/org/notes/area" t "\.org$")))
+  (setq org-agenda-files '("~/org/tasks" "~/org/notes/project" "org/notes/area"))
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
