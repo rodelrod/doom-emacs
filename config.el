@@ -165,6 +165,13 @@ Assumes millisecond timestamps."
       :desc "Toggle treemacs" "e" #'+treemacs/toggle
       :desc "Toggle treemacs" "C-e" #'+treemacs/toggle)
 
+;; Move workspaces around with keybindings mirroring what I use in tmux
+(map! :leader
+      :prefix "TAB"
+      :desc "Swap workspace to the left" "H" #'+workspace/swap-left
+      :desc "Swap workspace to the right" "L" #'+workspace/swap-right)
+
+
 
 ;;
 ;;; Package Configuration
