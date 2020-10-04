@@ -434,6 +434,14 @@ Assumes millisecond timestamps."
           )))
 
 
+(after! treemacs
+  (defun treemacs-custom-filter (filename _)
+    (or (s-equals? "__pycache__" filename)
+        (s-ends-with? ".pyc" filename)))
+  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-custom-filter)
+  )
+
+
 (use-package! writeroom-mode
   :config
   (setq +zen-text-scale 1)  ; default 2 was a bit too big
