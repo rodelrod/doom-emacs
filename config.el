@@ -442,6 +442,31 @@ Assumes millisecond timestamps."
   )
 
 
+(after! whitespace
+
+  (defun rodelrod/toggle-show-all-whitespace ()
+    "Toggle showing all whitespace as visible characters.
+Toggles between Doom's very bare default style and a more complete style showing almost everything."
+    (interactive)
+    (let* ((doom-style
+            '(face tabs tab-mark))
+           (full-style
+            '(face indentation tabs tab-mark spaces space-mark newline newline-mark trailing lines-tail))
+           (current-style-is-full?
+            (not (cl-set-exclusive-or (symbol-value 'whitespace-style) full-style))))
+      (if current-style-is-full?
+          (progn (setq whitespace-style doom-style)
+                 (message "Whitespace mode set to Doom's default"))
+        (progn (setq whitespace-style full-style)
+               (message "Whitespace mode set to show everything"))))
+    (whitespace-mode 0)
+    (whitespace-mode 1))
+
+  (map! :leader
+        :prefix "t"
+        :desc "Show all whitespace" "s" #'rodelrod/toggle-show-all-whitespace))
+
+
 (use-package! writeroom-mode
   :config
   (setq +zen-text-scale 1)  ; default 2 was a bit too big
