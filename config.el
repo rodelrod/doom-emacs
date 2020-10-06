@@ -140,6 +140,7 @@ Assumes millisecond timestamps."
     (progn  (kill-new text) (yank))))
 
 
+
 ;;
 ;;; Global Keybindings
 
