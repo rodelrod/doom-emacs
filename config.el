@@ -258,6 +258,40 @@ Assumes millisecond timestamps."
     (apply orig-fun extension subtreep pub-dir nil))
   (advice-add 'org-export-output-file-name :around #'org-export-output-file-name-modified)
 
+  ;; Move a sub-tree to the top or bottom of its parent
+  ;; Copied from a John Kitchin's SO answer: https://emacs.stackexchange.com/a/43662
+  (defun JK-org-move-to-extreme (up)
+    "Move current org subtree to the end of its parent.
+     With prefix arg move subtree to the start of its parent."
+    (interactive "P")
+    (condition-case err
+        (while t
+          (funcall (if up
+                       'org-move-subtree-up
+                     'org-move-subtree-down)))
+      (user-error
+       (let ((err-msg (cadr err)))
+         (unless (string-match "Cannot move past superior level or buffer limit" err-msg)
+           (signal 'user-error (list err-msg)))))))
+
+  (defun JK-org-move-to-top ()
+    "Move sub-tree to top of parent"
+    (interactive)
+    (setq current-prefix-arg 4) ; C-u
+    (call-interactively 'JK-org-move-to-extreme))
+
+  (defun JK-org-move-to-bottom ()
+    "Move sub-tree to bottom of parent"
+    (interactive)
+    (call-interactively 'JK-org-move-to-extreme))
+
+  ;; Bind org move to top/bottom keys
+  (map! :map org-mode-map
+
+        :prefix "z"
+        :n "J" #'JK-org-move-to-bottom
+        :n "K" #'JK-org-move-to-top)
+
   (defun rodelrod/convert-evernote-dates-to-org-timestamp ()
     "Convert all Evernote formatted dates in the current buffer to org-mode inactive timestamps"
     (interactive)
