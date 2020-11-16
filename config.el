@@ -399,7 +399,8 @@ Assumes millisecond timestamps."
   (setq org-roam-directory "~/org/notes"
         org-roam-db-location "~/org/notes/db/org-roam.db"
         org-roam-tag-sources '(prop all-directories)
-        org-roam-graph-exclude-matcher "journal/")
+        org-roam-graph-exclude-matcher "journal/"
+        +org-roam-open-buffer-on-find-file nil)
   :config
   (setq org-roam-capture-templates
         '(("t" "topic" plain (function org-roam--capture-get-point)
