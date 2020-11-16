@@ -152,7 +152,7 @@
         +pretty          ; use org-superstar for nice bullets
         +roam)
        ;;perl              ; write code no one else can comprehend
-       ;;php               ; perl's insecure younger brother
+       php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        (python +lsp)           ; beautiful is better than ugly
