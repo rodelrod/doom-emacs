@@ -208,7 +208,7 @@ Assumes millisecond timestamps."
   :config
   (setq org-archive-location "%s_archive::datetree/"
         org-startup-folded 'content
-        org-ellipsis " ⯈"
+        org-ellipsis " ▶"
         org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)"))
         org-enforce-todo-dependencies t
         org-log-done t                                ; Add CLOSED timestamp when todo is done
