@@ -16,6 +16,15 @@
 (setq doom-font (font-spec :family "Source Code Pro" :size 14)
       doom-variable-pitch-font (font-spec :family "Source Sans 3"))
 
+;; Org-superstar "bullets" are not present in doom-font and they render with a
+;; fallback font (Noto) that has a mismatched line height. We should be able to
+;; override that by setting `doom-unicode-font' but it's not working. So I'm
+;; forcing the range of characters that I'm interested in after the font setting
+;; dance is finished.
+(add-hook! 'after-setting-font-hook
+  (set-fontset-font t '(?✩ . ?❋)
+                    (font-xlfd-name (find-font (font-spec :family "DejaVu Sans Mono")))))
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -65,11 +74,8 @@
   '(org-document-title :weight bold :height 1.35)
   '(outline-1 :weight bold :height 1.30)
   '(outline-2 :weight bold :height 1.25)
-  '(outline-3 :weight bold :height 1.20 )
-  ;; HACK: setting width for this font does not change width but it's enough to
-  ;; trick emacs into not giving me the outsized Noto's Black Florette for this
-  ;; bullet and use Deja Vu's instead
-  '(outline-4 :weight semi-bold :height 1.15 :width semi-condensed)
+  '(outline-3 :weight bold :height 1.20)
+  '(outline-4 :weight semi-bold :height 1.15)
   '(outline-5 :weight semi-bold :height 1.12)
   '(outline-6 :weight semi-bold :height 1.09)
   '(outline-8 :weight semi-bold :height 1.06)
