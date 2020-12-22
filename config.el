@@ -216,7 +216,7 @@ Assumes millisecond timestamps."
         org-indirect-buffer-display 'new-frame
         org-list-indent-offset 1                      ; indent plain lists with 3 spaces
         tab-width 3
-        org-id-link-to-org-use-id 'use-existing)
+        org-id-link-to-org-use-id 'create-if-interactive)
 
   ;; Use the fold prefix `z' for outline navigation
   ;; and recover `gk' and `gj' for visual line up and down
