@@ -202,7 +202,7 @@ Assumes millisecond timestamps."
 (use-package! org
   :mode "\\.org_archive\\'"
   :init
-  (setq org-directory "~/org/")
+  (setq org-directory (file-truename "~/org/"))
   (add-hook! 'org-mode-hook #'(+org-pretty-mode
                                doom-disable-line-numbers-h))
   :config
@@ -345,7 +345,9 @@ Assumes millisecond timestamps."
 
 
 (after! org-agenda
-  (setq org-agenda-files '("~/org/tasks" "~/org/notes/project" "org/notes/area"))
+  (setq org-agenda-files '((file-truename "~/org/tasks")
+                           (file-truename "~/org/notes/project")
+                           (file-truename "~/org/notes/area")))
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
@@ -368,7 +370,7 @@ Assumes millisecond timestamps."
           ;; having the tasks scattered in the Archive datetree.
           ("r" "Tasks/Projects ready to archive (Level-2 items closed more than 2 months ago)"
            tags "+CLOSED<\"<-2m>\"+LEVEL=2"
-           ((org-agenda-files '("~/org/tasks"))))))
+           ((org-agenda-files '((file-truename "~/org/tasks")))))))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
@@ -416,7 +418,7 @@ Assumes millisecond timestamps."
         :desc "Today's file"
         "n j t" #'org-journal-open-current-journal-file)
   :config
-  (setq org-journal-dir "~/org/notes/journal"
+  (setq org-journal-dir (file-truename "~/org/notes/journal")
         org-journal-date-prefix "#+TITLE: "
         org-journal-date-format "%A W%V, %d %B %Y"
         org-journal-time-format "[%Y-%m-%d %H:%M] "   ; make it easier to refile preserving data
@@ -436,8 +438,8 @@ Assumes millisecond timestamps."
         :desc "Find in org-roam notes" "f" #'org-roam-find-file
         :desc "Find in all notes" "F" #'+default/find-in-notes
         :desc "org-roam-graph" "g" #'org-roam-show-graph)
-  (setq org-roam-directory "~/org/notes"
-        org-roam-db-location "~/org/notes/db/org-roam.db"
+  (setq org-roam-directory (file-truename "~/org/notes")
+        org-roam-db-location (file-truename "~/org/notes/db/org-roam.db")
         org-roam-tag-sources '(prop all-directories)
         org-roam-graph-exclude-matcher "journal/"
         +org-roam-open-buffer-on-find-file nil)
