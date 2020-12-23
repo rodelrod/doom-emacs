@@ -188,17 +188,6 @@ Assumes millisecond timestamps."
   (setq blacken-skip-string-normalization t))
 
 
-(use-package! helm-org-rifle
-  :init
-  (map! :leader
-        :desc "Rifle through agenda files" "r a" 'helm-org-rifle-agenda-files
-        :desc "Rifle through org directory" "r o" 'helm-org-rifle-org-directory)
-  :config
-  ;; show path to header in search results
-  (setq helm-org-rifle-show-path t)
-  (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil))
-
-
 (use-package! org
   :mode "\\.org_archive\\'"
   :init
@@ -412,22 +401,6 @@ Assumes millisecond timestamps."
   )
 
 
-(use-package! org-journal
-  :init
-  (map! :leader
-        :desc "Today's file"
-        "n j t" #'org-journal-open-current-journal-file)
-  :config
-  (setq org-journal-dir (file-truename "~/org/notes/journal")
-        org-journal-date-prefix "#+TITLE: "
-        org-journal-date-format "%A W%V, %d %B %Y"
-        org-journal-time-format "[%Y-%m-%d %H:%M] "   ; make it easier to refile preserving data
-        org-journal-file-format "%Y-%m-%d.org"
-        org-journal-carryover-items nil)
-  (add-hook! 'org-journal-after-entry-create-hook #'evil-insert-state)
-  (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
-
-
 (use-package! org-roam
   :init
   (map! :leader
@@ -439,7 +412,7 @@ Assumes millisecond timestamps."
         :desc "Find in all notes" "F" #'+default/find-in-notes
         :desc "org-roam-graph" "g" #'org-roam-show-graph)
   (setq org-roam-directory (file-truename "~/org/notes")
-        org-roam-db-location (file-truename "~/org/notes/db/org-roam.db")
+        org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
         org-roam-tag-sources '(prop all-directories)
         org-roam-graph-exclude-matcher "journal/"
         +org-roam-open-buffer-on-find-file nil)
@@ -476,6 +449,33 @@ Assumes millisecond timestamps."
            :head "#+title: ${title}\n#+created: %U\n"
            :unnarrowed t)
           )))
+
+
+(use-package! org-journal
+  :init
+  (map! :leader
+        :desc "Today's file"
+        "n j t" #'org-journal-open-current-journal-file)
+  :config
+  (setq org-journal-dir (file-truename "~/org/notes/journal")
+        org-journal-date-prefix "#+TITLE: "
+        org-journal-date-format "%A W%V, %d %B %Y"
+        org-journal-time-format "[%Y-%m-%d %H:%M] "   ; make it easier to refile preserving data
+        org-journal-file-format "%Y-%m-%d.org"
+        org-journal-carryover-items nil)
+  (add-hook! 'org-journal-after-entry-create-hook #'evil-insert-state)
+  (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
+
+
+(use-package! helm-org-rifle
+  :init
+  (map! :leader
+        :desc "Rifle through agenda files" "r a" 'helm-org-rifle-agenda-files
+        :desc "Rifle through org directory" "r o" 'helm-org-rifle-org-directory)
+  :config
+  ;; show path to header in search results
+  (setq helm-org-rifle-show-path t)
+  (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil))
 
 
 (after! treemacs
