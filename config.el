@@ -334,9 +334,8 @@ Assumes millisecond timestamps."
 
 
 (after! org-agenda
-  (setq org-agenda-files '((file-truename "~/org/tasks")
-                           (file-truename "~/org/notes/project")
-                           (file-truename "~/org/notes/area")))
+  (setq org-agenda-files (mapcar 'file-truename
+                                 '("~/org/tasks" "~/org/notes/project" "~/org/notes/area")))
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
@@ -359,7 +358,7 @@ Assumes millisecond timestamps."
           ;; having the tasks scattered in the Archive datetree.
           ("r" "Tasks/Projects ready to archive (Level-2 items closed more than 2 months ago)"
            tags "+CLOSED<\"<-2m>\"+LEVEL=2"
-           ((org-agenda-files '((file-truename "~/org/tasks")))))))
+           ((org-agenda-files (list (file-truename "~/org/tasks")))))))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
