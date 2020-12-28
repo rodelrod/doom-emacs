@@ -191,7 +191,7 @@ Assumes millisecond timestamps."
 (use-package! org
   :mode "\\.org_archive\\'"
   :init
-  (setq org-directory (file-truename "~/org/"))
+  (setq org-directory (file-truename "~/org/notes/"))
   (add-hook! 'org-mode-hook #'(+org-pretty-mode
                                doom-disable-line-numbers-h))
   :config
@@ -335,7 +335,7 @@ Assumes millisecond timestamps."
 
 (after! org-agenda
   (setq org-agenda-files (mapcar 'file-truename
-                                 '("~/org/tasks" "~/org/notes/project" "~/org/notes/area")))
+                                 '("~/org/notes/tasks" "~/org/notes/project" "~/org/notes/area")))
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
@@ -358,7 +358,8 @@ Assumes millisecond timestamps."
           ;; having the tasks scattered in the Archive datetree.
           ("r" "Tasks/Projects ready to archive (Level-2 items closed more than 2 months ago)"
            tags "+CLOSED<\"<-2m>\"+LEVEL=2"
-           ((org-agenda-files (list (file-truename "~/org/tasks")))))))
+           ;; Only archive TODOs from the tasks files, not project etc.
+           ((org-agenda-files (list (file-truename "~/org/notes/tasks")))))))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
@@ -411,9 +412,10 @@ Assumes millisecond timestamps."
         :desc "Find in all notes" "F" #'+default/find-in-notes
         :desc "org-roam-graph" "g" #'org-roam-show-graph)
   (setq org-roam-directory (file-truename "~/org/notes")
+        org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
         org-roam-tag-sources '(prop all-directories)
-        org-roam-graph-exclude-matcher "journal/"
+        org-roam-graph-exclude-matcher '("journal/" "tasks/")
         +org-roam-open-buffer-on-find-file nil)
   :config
   (setq org-roam-capture-templates
