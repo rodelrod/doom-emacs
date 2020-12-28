@@ -52,3 +52,4 @@
 
 (package! helm-org-rifle)
 (package! blacken)
+(package! notdeft :recipe (:host github :repo "hasu/notdeft"))

@@ -468,6 +468,20 @@ Assumes millisecond timestamps."
   (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
 
 
+(use-package! notdeft
+  :config
+  (setq notdeft-directories (list (file-truename "~/org/notes"))
+        ;; Prereq: build `notdeft-xapian' using Makefile in the directory below
+        notdeft-xapian-program (expand-file-name
+                                "~/emacs-profiles/doom-emacs/.local/straight/repos/notdeft/xapian/notdeft-xapian"))
+  (add-hook! 'org-mode-hook :append 'notdeft-note-mode)
+  (map! :leader
+        :desc "NotDeft search" "n d" #'notdeft)
+  (map! :map notdeft-mode-map
+        :nvi "C-j" #'next-line
+        :nvi "C-k" #'previous-line))
+
+
 (use-package! helm-org-rifle
   :init
   (map! :leader
