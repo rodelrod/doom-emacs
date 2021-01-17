@@ -364,8 +364,20 @@ Assumes millisecond timestamps."
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
+    "Launch agenda in its own buffer"
+    ;; I don't really know how this works, most of the code comes
+    ;; from +org-capture/open-frame
     (interactive "P")
-    (org-agenda arg "n")))
+    (let* ((frame-title-format "")
+           (frame (selected-frame)))
+      (with-selected-frame frame
+        (condition-case ex
+            (letf! ((#'pop-to-buffer #'switch-to-buffer))
+              (switch-to-buffer (doom-fallback-buffer))
+              (org-agenda arg "n"))
+          ('error
+           (message "org-agenda: %s" (error-message-string ex))
+           (delete-frame frame)))))))
 
 
 (after! org-capture
