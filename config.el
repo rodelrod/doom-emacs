@@ -385,6 +385,8 @@ Assumes millisecond timestamps."
   ;; Get into insert state immediately after entering Capture
   ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
   (setq org-capture-templates
+        ;; Looking for the meaning of the '%' placeholders?
+        ;; Check https://orgmode.org/manual/Template-expansion.html#Template-expansion
         '(("t" "todo" entry
             (file "tasks/inbox.org")
             "* TODO %?\n%U\n")
@@ -394,14 +396,18 @@ Assumes millisecond timestamps."
           ("n" "note wih link" entry
             (file "tasks/inbox.org")
             "* %?\n%U\n%i\n%a\n")
-          ("p" "org-protocol" entry
-            (file "tasks/inbox.org")
-            "* %:annotation\n%U\n\n%i\n"
-            :empty-lines 1
-            :immediate-finish t)
           ("r" "weekly org review" entry
             (file "tasks/weekly_reviews.org")
-            (file "templates/weekly_review.org") :prepend t))))
+            (file "templates/weekly_review.org") :prepend t)
+          ("p" "Protocol Snippet" entry
+            (file "tasks/inbox.org")
+            "* %a\n%U\n\n#+begin_quote\n%i\n#+end_quote\n\n%?"
+            :empty-lines 1)
+          ("L" "Protocol Link" entry
+            (file "tasks/inbox.org")
+            "* %a\n%U"
+            :empty-lines 1
+            :immediate-finish t))))
 
 
 (after! (org-agenda org-capture)
