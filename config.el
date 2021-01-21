@@ -317,7 +317,7 @@ Assumes millisecond timestamps."
   ;;  - MUTED: if there's no subtask to be done
   (defun org-summary-todo (n-done n-not-done)
     "Switch entry to ~n-done~ when all subentries are done, to ~n-not-done~ otherwise."
-    ;; HACK: We want to shadow a couple of variables to turn off loggin below,
+    ;; HACK: We want to shadow a couple of variables to turn off logging below,
     ;; but since lexical binding is on in this file, we need to force dynamic
     ;; binding using defvar.
     (defvar org-log-done)
@@ -383,7 +383,7 @@ Assumes millisecond timestamps."
 (after! org-capture
   (setq org-default-notes-file "tasks/inbox.org")
   ;; Get into insert state immediately after entering Capture
-  ;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
+  ;;(add-hook 'org-capture-mode-hook 'evil-insert-state)
   (setq org-capture-templates
         ;; Looking for the meaning of the '%' placeholders?
         ;; Check https://orgmode.org/manual/Template-expansion.html#Template-expansion
