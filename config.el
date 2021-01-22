@@ -472,6 +472,22 @@ Assumes millisecond timestamps."
           )))
 
 
+(use-package! org-roam-server
+  :after (org-roam server)
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8078
+        org-roam-server-export-inline-images t)
+  (defun org-roam-server-open()
+    "Ensure the server is active, then open org-roam-server in browser."
+    (interactive)
+    ;; The smartparens mode will cause an error if its enabled when the server starts
+    ;; check https://github.com/org-roam/org-roam-server/issues/115
+    (smartparens-global-mode -1)
+    (org-roam-server-mode)
+    (smartparens-global-mode)
+    (browse-url-default-browser (format "http://localhost:%d" org-roam-server-port))))
+
 (use-package! org-journal
   :init
   (map! :leader
