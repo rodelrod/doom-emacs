@@ -204,6 +204,7 @@ Assumes millisecond timestamps."
         org-log-done t                                ; Add CLOSED timestamp when todo is done
         org-log-into-drawer t                         ; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
         org-plantuml-jar-path  "/usr/share/plantuml/plantuml.jar"
+        org-reverse-note-order t
         org-startup-folded 'content
         org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)"))
         tab-width 3
