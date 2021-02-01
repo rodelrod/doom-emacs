@@ -527,6 +527,7 @@ Assumes millisecond timestamps."
 (use-package! helm-org-rifle
   :init
   (map! :leader
+        :prefix ("r" . "rifle")
         :desc "Rifle through agenda files" "r a" 'helm-org-rifle-agenda-files
         :desc "Rifle through org directory" "r o" 'helm-org-rifle-org-directory)
   :config
