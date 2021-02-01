@@ -97,7 +97,7 @@
         +offline)
        (lsp +eglot)
        ;;macos             ; MacOS-specific commands
-       magit             ; a git porcelain for Emacs
+       (magit +forge)      ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
