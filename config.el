@@ -436,7 +436,7 @@ Assumes millisecond timestamps."
         org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
         org-roam-tag-sources '(prop all-directories)
-        org-roam-graph-exclude-matcher '("journal/" "tasks/")
+        org-roam-graph-exclude-matcher '("daily/" "tasks/")
         +org-roam-open-buffer-on-find-file nil)
   :config
   (setq org-roam-capture-templates
@@ -470,7 +470,21 @@ Assumes millisecond timestamps."
            :file-name "who/${slug}"
            :head "#+title: ${title}\n#+created: %U\n"
            :unnarrowed t)
-          )))
+          ))
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           #'org-roam-capture--get-point
+           "* %?\n%U"
+           :file-name "daily/%<%Y-%m-%d>"
+           :head "#+title: %<%Y-%m-%d, %a W%V>\n")))
+  (map! :leader
+        :desc "Capture to daily" "D" #'org-roam-dailies-capture-today
+        :prefix ("d" . "dailies")
+        :desc "Find daily for today" "t" #'org-roam-dailies-find-today
+        :desc "Find daily in calendar" "d" #'org-roam-dailies-find-date
+        :desc "Find daily for yesterday" "y" #'org-roam-dailies-find-today
+        :desc "Find next daily" "n" #'org-roam-dailies-find-next-note
+        :desc "Find previous daily" "p" #'org-roam-dailies-find-previous-note))
 
 
 (use-package! org-roam-server
@@ -488,21 +502,6 @@ Assumes millisecond timestamps."
     (org-roam-server-mode)
     (smartparens-global-mode)
     (browse-url-default-browser (format "http://localhost:%d" org-roam-server-port))))
-
-(use-package! org-journal
-  :init
-  (map! :leader
-        :desc "Today's file"
-        "n j t" #'org-journal-open-current-journal-file)
-  :config
-  (setq org-journal-dir (file-truename "~/org/notes/journal")
-        org-journal-date-prefix "#+TITLE: "
-        org-journal-date-format "%A W%V, %d %B %Y"
-        org-journal-time-format "[%Y-%m-%d %H:%M] "   ; make it easier to refile preserving data
-        org-journal-file-format "%Y-%m-%d.org"
-        org-journal-carryover-items nil)
-  (add-hook! 'org-journal-after-entry-create-hook #'evil-insert-state)
-  (add-to-list '+word-wrap-visual-modes 'org-journal-mode))
 
 
 (use-package! notdeft
