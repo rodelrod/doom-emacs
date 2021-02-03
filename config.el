@@ -404,7 +404,8 @@ Assumes millisecond timestamps."
           ("p" "Protocol Snippet" entry
             (file "tasks/inbox.org")
             "* %a\n%U\n\n#+begin_quote\n%i\n#+end_quote\n\n%?"
-            :empty-lines 1)
+            :empty-lines 1
+            :immediate-finish t)
           ("L" "Protocol Link" entry
             (file "tasks/inbox.org")
             "* %a\n%U"
