@@ -290,6 +290,21 @@ Assumes millisecond timestamps."
         :n "J" #'JK-org-move-to-bottom
         :n "K" #'JK-org-move-to-top)
 
+  (defun rodelrod/org-open-link-split ()
+    "Open link in an horizontal split"
+    (interactive)
+    (evil-window-split)
+    (org-open-at-point))
+  (defun rodelrod/org-open-link-vsplit ()
+    "Open link in a vertical split"
+    (interactive)
+    (evil-window-vsplit)
+    (org-open-at-point))
+  (map! :map org-mode-map
+        :leader
+        :desc "Open link in split" :n "o s" #'rodelrod/org-open-link-split
+        :desc "Open link in vertical split" :n "o v" #'rodelrod/org-open-link-vsplit)
+
   (defun rodelrod/convert-evernote-dates-to-org-timestamp ()
     "Convert all Evernote formatted dates in the current buffer to org-mode inactive timestamps"
     (interactive)
