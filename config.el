@@ -544,8 +544,8 @@ Assumes millisecond timestamps."
   :init
   (map! :leader
         :prefix ("r" . "rifle")
-        :desc "Rifle through agenda files" "r a" 'helm-org-rifle-agenda-files
-        :desc "Rifle through org directory" "r o" 'helm-org-rifle-org-directory)
+        :desc "Rifle through agenda files" "a" 'helm-org-rifle-agenda-files
+        :desc "Rifle through org directory" "o" 'helm-org-rifle-org-directory)
   :config
   ;; show path to header in search results
   (setq helm-org-rifle-show-path t)
