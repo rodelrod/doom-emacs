@@ -196,6 +196,7 @@ Assumes millisecond timestamps."
                                doom-disable-line-numbers-h))
   :config
   (setq org-archive-location "%s_archive::datetree/"
+        org-download-image-org-width 1200
         org-ellipsis " ▶"
         org-enforce-todo-dependencies t
         org-id-link-to-org-use-id 'create-if-interactive
