@@ -16,14 +16,6 @@
 (setq doom-font (font-spec :family "Source Code Pro" :size 14)
       doom-variable-pitch-font (font-spec :family "Source Sans 3"))
 
-;; Org-superstar "bullets" are not present in doom-font and they render with a
-;; fallback font (Noto) that has a mismatched line height. We should be able to
-;; override that by setting `doom-unicode-font' but it's not working. So I'm
-;; forcing the range of characters that I'm interested in after the font setting
-;; dance is finished.
-(add-hook! 'after-setting-font-hook
-  (set-fontset-font t '(?✩ . ?❋)
-                    (font-xlfd-name (find-font (font-spec :family "DejaVu Sans Mono")))))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
