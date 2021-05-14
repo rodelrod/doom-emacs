@@ -513,26 +513,6 @@ Assumes millisecond timestamps."
     (browse-url-default-browser (format "http://localhost:%d" org-roam-server-port))))
 
 
-(use-package! notdeft
-  :config
-  (setq notdeft-directories (list (file-truename "~/org/notes"))
-        ;; Prereq: build `notdeft-xapian' using Makefile in the directory below
-        notdeft-xapian-program (expand-file-name
-                                "~/emacs-profiles/doom-emacs/.local/straight/repos/notdeft/xapian/notdeft-xapian"))
-  (add-hook! 'org-mode-hook :append 'notdeft-note-mode)
-  (map! :leader
-        :desc "NotDeft search" "n d" #'notdeft)
-  (map! :map notdeft-mode-map
-        :nvie "C-j" #'next-line
-        :nvie "C-k" #'previous-line
-        :nvie "<tab>" #'notdeft-query-edit
-        ;; HACK: this is the only way I managed to map S-TAB in Xorg
-        :nvie "<S-iso-lefttab>" #'notdeft-query-clear
-        :nv   "q" #'notdeft-quit
-        )
-  (evil-set-initial-state 'notdeft-mode 'emacs))
-
-
 (use-package! helm-org-rifle
   :init
   (map! :leader
