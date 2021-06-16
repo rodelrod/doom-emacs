@@ -384,7 +384,9 @@ Assumes millisecond timestamps."
               (org-agenda arg "n"))
           ('error
            (message "org-agenda: %s" (error-message-string ex))
-           (delete-frame frame)))))))
+           (delete-frame frame))))))
+  (setq org-refile-targets '((nil :maxlevel . 3)
+                             (org-agenda-files :maxlevel . 1))))
 
 
 (after! org-capture
