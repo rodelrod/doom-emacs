@@ -270,15 +270,12 @@ Assumes millisecond timestamps."
     (interactive)
     (setq current-prefix-arg 4) ; C-u
     (call-interactively 'JK-org-move-to-extreme))
-
   (defun JK-org-move-to-bottom ()
     "Move sub-tree to bottom of parent"
     (interactive)
     (call-interactively 'JK-org-move-to-extreme))
-
   ;; Bind org move to top/bottom keys
   (map! :map org-mode-map
-
         :prefix "z"
         :n "J" #'JK-org-move-to-bottom
         :n "K" #'JK-org-move-to-top)
