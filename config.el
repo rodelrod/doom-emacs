@@ -491,7 +491,7 @@ Assumes millisecond timestamps."
         :prefix ("d" . "dailies")
         :desc "Find daily for today" "t" #'org-roam-dailies-find-today
         :desc "Find daily in calendar" "d" #'org-roam-dailies-find-date
-        :desc "Find daily for yesterday" "y" #'org-roam-dailies-find-today
+        :desc "Find daily for yesterday" "y" #'org-roam-dailies-find-yesterday
         :desc "Find next daily" "n" #'org-roam-dailies-find-next-note
         :desc "Find previous daily" "p" #'org-roam-dailies-find-previous-note))
 
