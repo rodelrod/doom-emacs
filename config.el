@@ -192,7 +192,6 @@ Assumes millisecond timestamps."
         org-ellipsis " ▶"
         org-enforce-todo-dependencies t
         org-id-link-to-org-use-id 'create-if-interactive
-        org-indirect-buffer-display 'new-frame
         org-list-indent-offset 1                      ; indent plain lists with 3 spaces
         org-log-done t                                ; Add CLOSED timestamp when todo is done
         org-log-into-drawer t                         ; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
