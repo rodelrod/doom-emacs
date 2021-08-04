@@ -438,6 +438,10 @@ Assumes millisecond timestamps."
         org-roam-graph-exclude-matcher '("daily/" "tasks/")
         org-roam-graph-link-hidden-types '("file" "http" "https" "attachment" "fuzzy")
         +org-roam-open-buffer-on-find-file nil)
+  (setq org-roam-db-node-include-function
+        (lambda ()
+          (not (member "ATTACH" (org-get-tags)))))
+
   :config
   (setq org-roam-capture-templates
         '(("t" "topic" plain "%?" :if-new
