@@ -475,16 +475,6 @@ Assumes millisecond timestamps."
   (set-popup-rule! "^\\*org-roam\\*" :side 'right :width 0.381966)
 
 
-(use-package! helm-org-rifle
-  :init
-  (map! :leader
-        :prefix ("r" . "rifle")
-        :desc "Rifle through agenda files" "a" 'helm-org-rifle-agenda-files
-        :desc "Rifle through org directory" "o" 'helm-org-rifle-org-directory)
-  :config
-  ;; show path to header in search results
-  (setq helm-org-rifle-show-path t)
-  (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil))
   (org-roam-setup))
 
 

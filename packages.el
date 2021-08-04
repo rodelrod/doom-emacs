@@ -50,7 +50,6 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 
-(package! helm-org-rifle)
 (package! blacken)
 (package! org-roam
   :recipe (:host github :repo "org-roam/org-roam" :branch "v2"))
