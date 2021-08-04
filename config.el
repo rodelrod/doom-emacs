@@ -214,9 +214,6 @@ Assumes millisecond timestamps."
   ;; Link to Trello card using the hash (e.g. [[trello:pkJCXtRX]])
   (add-to-list 'org-link-abbrev-alist '("trello" . "https://trello.com/c/"))
 
-  ;; Override company-org-roam, which was deprecated but this was not updated in Doom
-  (set-company-backend! 'org-mode '(company-capf))
-
   ;; Emacs wants to open everything in emacs, but many times I just want
   ;; the system default.
   (setq org-file-apps
