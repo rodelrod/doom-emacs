@@ -480,6 +480,55 @@ Assumes millisecond timestamps."
 
   ;; Tell Doom's popup where to put the org-roam buffer (default is bottom)
   (set-popup-rule! "^\\*org-roam\\*" :side 'right :width 0.381966)
+
+  ;; ARCHIVING
+  ;; ------------------------------------
+  ;; Archiving/unarchiving org-roam files
+
+  (defun rodelrod/archive-org-roam-file ()
+    "Move an org-roam file to an ARCHIVE sub-directory and add ARCHIVE tag."
+    (if (not buffer-file-name)
+        (message "Buffer '%s' is not visiting a file!" (buffer-name))
+      (let ((roam-directory (f-dirname buffer-file-name))
+            (roam-basename  (f-filename buffer-file-name)))
+
+        (when (not (member "ARCHIVE" (f-split roam-directory)))
+          (org-roam-tag-add '("ARCHIVE"))
+          (save-buffer)
+          (let ((archive-directory (f-expand (file-name-as-directory "ARCHIVE") roam-directory)))
+            (f-mkdir archive-directory)
+            (let ((archive-filename (f-expand roam-basename archive-directory)))
+              (f-move buffer-file-name archive-filename)
+              (kill-buffer)
+              (find-file archive-filename)))))))
+
+  (defun rodelrod/unarchive-org-roam-file ()
+    "Move an org-roam file out of the ARCHIVE sub-directory and remove ARCHIVE tag."
+    (if (not buffer-file-name)
+        (message "Buffer '%s' is not visiting a file!" (buffer-name))
+      (let ((archive-directory (f-dirname buffer-file-name))
+            (archive-basename  (f-filename buffer-file-name)))
+
+        (when (member "ARCHIVE" (f-split archive-directory))
+          (org-roam-tag-remove '("ARCHIVE"))
+          (save-buffer)
+          (let ((roam-directory (f-parent archive-directory)))
+            (let ((roam-filename (f-expand archive-basename roam-directory)))
+              (f-move buffer-file-name roam-filename)
+              (kill-buffer)
+              (find-file roam-filename)))))))
+
+  (defun rodelrod/toggle-archive-org-roam-file ()
+    "Archive and unarchive org-roam file according to current state."
+    (interactive)
+    (if (not buffer-file-name)
+        (message "Buffer '%s' is not visiting a file!" (buffer-name))
+      (let ((current-file-directory (f-dirname buffer-file-name)))
+        (if (member "ARCHIVE" (f-split current-file-directory))
+            (rodelrod/unarchive-org-roam-file)
+          (rodelrod/archive-org-roam-file)))))
+
+  ;; this must come last
   (org-roam-setup))
 
 
