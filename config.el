@@ -435,7 +435,6 @@ Assumes millisecond timestamps."
   (setq org-roam-directory (file-truename "~/org/notes")
         org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
-        org-roam-tag-sources '(prop all-directories)
         org-roam-graph-exclude-matcher '("daily/" "tasks/")
         +org-roam-open-buffer-on-find-file nil)
   :config
