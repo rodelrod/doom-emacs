@@ -473,9 +473,9 @@ Assumes millisecond timestamps."
 
   ;; Tell Doom's popup where to put the org-roam buffer (default is bottom)
   (set-popup-rule! "^\\*org-roam\\*" :side 'right :width 0.381966)
-
-
   (org-roam-setup))
+
+
 
 
 (after! treemacs
