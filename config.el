@@ -489,6 +489,10 @@ Assumes millisecond timestamps."
 
 
 
+;; (after! rustic
+;;   (setq rustic-flycheck-clippy-params "--message-format=json"))
+
+
 (after! treemacs
   (defun treemacs-custom-filter (filename _)
     (or (s-equals? "__pycache__" filename)
