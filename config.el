@@ -426,15 +426,15 @@ Assumes millisecond timestamps."
 
 
 (use-package! org-roam
+  :after org
   :init
   (map! :leader
         :prefix "n"
-        :desc "Insert org-roam link" "i" #'org-roam-insert
-        :desc "Insert org-roam link immediately" "I" #'org-roam-insert-immediate
-        :desc "Switch to org-roam buffer" "b" #'org-roam-switch-to-buffer
-        :desc "Find in org-roam notes" "f" #'org-roam-find-file
-        :desc "Find in all notes" "F" #'+default/find-in-notes
-        :desc "org-roam-graph" "g" #'org-roam-show-graph)
+        :desc "Insert org-roam link" "i" #'org-roam-node-insert
+        :desc "Find in org-roam notes" "f" #'org-roam-node-find
+        :desc "Show org-roam Graph" "g" #'org-roam-graph
+        :desc "Toggle org-roam Buffer" "r" #'org-roam-buffer-toggle
+        )
   (setq org-roam-directory (file-truename "~/org/notes")
         org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
@@ -443,43 +443,29 @@ Assumes millisecond timestamps."
         +org-roam-open-buffer-on-find-file nil)
   :config
   (setq org-roam-capture-templates
-        '(("t" "topic" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "topic/${slug}"
-           :head "#+title: ${title}\n#+created: %U\n"
+        '(("t" "topic" plain "%?" :if-new
+           (file+head "topic/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: topic\n")
            :unnarrowed t)
-          ("l" "literature" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "literature/%<%Y%m>-${slug}"
-           :head "#+title: ${title}\n#+created: %U\n"
+          ("l" "literature" plain "%?" :if-new
+           (file+head "literature/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: literature\n")
            :unnarrowed t)
-          ("p" "project" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "project/%<%Y%m>-${slug}"
-           :head "#+title: ${title}\n#+created: %U\n"
+          ("p" "project" plain "%?" :if-new
+           (file+head "project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: project\n")
            :unnarrowed t)
-          ("a" "area" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "area/%<%Y%m>-${slug}"
-           :head "#+title: ${title}\n#+created: %U\n"
+          ("a" "area" plain "%?" :if-new
+           (file+head "area/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: area\n")
            :unnarrowed t)
-          ("m" "recurring meeting" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "meeting/%<%Y%m>-${slug}"
-           :head "#+title: ${title}\n#+created: %U\n#+startup: overview\n"
+          ("m" "recurring meeting" plain "%?" :if-new
+           (file+head "meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: meeting\n#+startup: overview\n")
            :unnarrowed t)
-          ("w" "who" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "who/${slug}"
-           :head "#+title: ${title}\n#+created: %U\n"
+          ("w" "who" plain "%?" :if-new
+           (file+head "who/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: who\n")
            :unnarrowed t)
           ))
   (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
-           #'org-roam-capture--get-point
-           "* %?\n%U"
-           :file-name "daily/%<%Y-%m-%d>"
-           :head "#+title: %<%Y-%m-%d, %a W%V>\n")))
+        '(("d" "default" entry "* %?\n%U" :if-new
+           (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d, %a W%V>\n#+filetags: daily\n"))))
+  (setq org-roam-node-display-template "${title:*} ${tags:40}" )
   (map! :leader
         :desc "Capture to daily" "D" #'org-roam-dailies-capture-today
         :prefix ("d" . "dailies")
@@ -487,8 +473,7 @@ Assumes millisecond timestamps."
         :desc "Find daily in calendar" "d" #'org-roam-dailies-find-date
         :desc "Find daily for yesterday" "y" #'org-roam-dailies-find-yesterday
         :desc "Find next daily" "n" #'org-roam-dailies-find-next-note
-        :desc "Find previous daily" "p" #'org-roam-dailies-find-previous-note))
-
+        :desc "Find previous daily" "p" #'org-roam-dailies-find-previous-note)
 
 (use-package! org-roam-server
   :after (org-roam server)
@@ -517,6 +502,7 @@ Assumes millisecond timestamps."
   ;; show path to header in search results
   (setq helm-org-rifle-show-path t)
   (set-popup-rule! "^\\*helm" :vslot -100 :size 0.30 :ttl nil))
+  (org-roam-setup))
 
 
 (after! treemacs

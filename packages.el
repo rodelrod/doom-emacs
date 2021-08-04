@@ -54,3 +54,5 @@
 (package! blacken)
 (package! org-roam-server
   :recipe (:host github :repo "org-roam/org-roam-server"))
+(package! org-roam
+  :recipe (:host github :repo "org-roam/org-roam" :branch "v2"))
