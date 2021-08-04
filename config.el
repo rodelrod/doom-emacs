@@ -487,6 +487,27 @@ Assumes millisecond timestamps."
   :after org-protocol)
 
 
+;; (after! ivy-bibtex
+;;   (setq bibtex-completion-bibliography "~/org/resources/Zotero.bib"
+;;         bibtex-completion-library-path "~/Dropbox/Zotero"
+;;         bibtex-completion-pdf-field "File"
+;;         bibtex-completion-notes-path "~/org/notes/literature"
+;;         bibtex-completion-notes-template-multiple-files
+;;         (concat
+;;          "#+TITLE: ${title}\n"
+;;          "#+ROAM_KEY: cite:${=key=}\n"
+;;          "* TODO Notes\n"
+;;          ":PROPERTIES:\n"
+;;          ":Custom_ID: ${=key=}\n"
+;;          ":AUTHOR: ${author-abbrev}\n"
+;;          ":JOURNAL: ${journaltitle}\n"
+;;          ":DATE: ${date}\n"
+;;          ":YEAR: ${year}\n"
+;;          ":DOI: ${doi}\n"
+;;          ":URL: ${url}\n"
+;;          ":END:\n\n"
+;;          )
+;;         ))
 
 
 ;; (after! rustic
