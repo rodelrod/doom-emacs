@@ -483,6 +483,10 @@ Assumes millisecond timestamps."
   (org-roam-setup))
 
 
+(use-package! org-roam-protocol
+  :after org-protocol)
+
+
 
 
 (after! treemacs
