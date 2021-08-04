@@ -185,7 +185,7 @@ Assumes millisecond timestamps."
   (add-hook! 'org-mode-hook #'(+org-pretty-mode
                                doom-disable-line-numbers-h))
   :config
-  (setq org-archive-location "%s_archive::datetree/"
+  (setq org-archive-location "ARCHIVE/%s_archive::datetree/"
         org-download-image-org-width 400
         org-ellipsis " ▶"
         org-enforce-todo-dependencies t
