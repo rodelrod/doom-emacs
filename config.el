@@ -72,6 +72,8 @@
   '(outline-6 :weight semi-bold :height 1.09)
   '(outline-8 :weight semi-bold :height 1.06)
   '(outline-9 :weight semi-bold)
+  `(org-drawer :foreground ,(doom-blend 'comments 'bg 0.7))
+  `(org-date :foreground ,(doom-blend 'yellow 'bg 0.8))
   ;; '(org-ellipsis :distant-foreground "dim gray")
   )
 
