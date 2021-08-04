@@ -278,12 +278,12 @@ Assumes millisecond timestamps."
   (defun rodelrod/org-open-link-split ()
     "Open link in an horizontal split"
     (interactive)
-    (evil-window-split)
+    (+evil/window-split-and-follow)
     (org-open-at-point))
   (defun rodelrod/org-open-link-vsplit ()
     "Open link in a vertical split"
     (interactive)
-    (evil-window-vsplit)
+    (+evil/window-vsplit-and-follow)
     (org-open-at-point))
   (map! :map org-mode-map
         :leader
