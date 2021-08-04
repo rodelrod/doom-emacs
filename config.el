@@ -436,6 +436,7 @@ Assumes millisecond timestamps."
         org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
         org-roam-graph-exclude-matcher '("daily/" "tasks/")
+        org-roam-graph-link-hidden-types '("file" "http" "https" "attachment" "fuzzy")
         +org-roam-open-buffer-on-find-file nil)
   :config
   (setq org-roam-capture-templates
