@@ -63,7 +63,7 @@
 
 ;; Bigger headings for org-mode, markdown and any other outliney things
 (custom-set-faces!
-  '(org-document-title :weight bold :height 1.35)
+  '(org-document-title :height 1.35)
   '(outline-1 :weight bold :height 1.30)
   '(outline-2 :weight bold :height 1.25)
   '(outline-3 :weight bold :height 1.20)
