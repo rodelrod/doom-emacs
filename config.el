@@ -420,12 +420,12 @@ Assumes millisecond timestamps."
   (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
   (advice-add 'org-archive-subtree :after 'org-save-all-org-buffers)
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
-  (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers)
-  )
+  (add-hook 'org-capture-after-finalize-hook 'org-save-all-org-buffers))
 
 
 (use-package! org-roam
   :after org
+
   :init
   (map! :leader
         :prefix "n"
@@ -440,6 +440,7 @@ Assumes millisecond timestamps."
         org-roam-graph-exclude-matcher '("daily/" "tasks/")
         org-roam-graph-link-hidden-types '("file" "http" "https" "attachment" "fuzzy")
         +org-roam-open-buffer-on-find-file nil)
+
   (setq org-roam-db-node-include-function
         (lambda ()
           (not (member "ATTACH" (org-get-tags)))))
