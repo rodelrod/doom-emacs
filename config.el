@@ -427,13 +427,6 @@ Assumes millisecond timestamps."
   :after org
 
   :init
-  (map! :leader
-        :prefix "n"
-        :desc "Insert org-roam link" "i" #'org-roam-node-insert
-        :desc "Find in org-roam notes" "f" #'org-roam-node-find
-        :desc "Show org-roam Graph" "g" #'org-roam-graph
-        :desc "Toggle org-roam Buffer" "r" #'org-roam-buffer-toggle
-        )
   (setq org-roam-directory (file-truename "~/org/notes")
         org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
@@ -446,6 +439,22 @@ Assumes millisecond timestamps."
           (not (member "ATTACH" (org-get-tags)))))
 
   :config
+  (map! :leader
+        :prefix "n"
+        :desc "Insert org-roam link" "i" #'org-roam-node-insert
+        :desc "Find in org-roam notes" "f" #'org-roam-node-find
+        :desc "Show org-roam Graph" "g" #'org-roam-graph
+        :desc "Toggle org-roam Buffer" "r" #'org-roam-buffer-toggle)
+
+  (map! :leader
+        :desc "Capture to daily" "D" #'org-roam-dailies-capture-today
+        :prefix ("d" . "dailies")
+        :desc "Find daily for today" "t" #'org-roam-dailies-find-today
+        :desc "Find daily in calendar" "d" #'org-roam-dailies-find-date
+        :desc "Find daily for yesterday" "y" #'org-roam-dailies-find-yesterday
+        :desc "Find next daily" "n" #'org-roam-dailies-find-next-note
+        :desc "Find previous daily" "p" #'org-roam-dailies-find-previous-note)
+
   (setq org-roam-capture-templates
         '(("t" "topic" plain "%?" :if-new
            (file+head "topic/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: topic\n")
@@ -466,21 +475,14 @@ Assumes millisecond timestamps."
            (file+head "who/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: who\n")
            :unnarrowed t)
           ))
+
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %?\n%U" :if-new
            (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d, %a W%V>\n#+filetags: daily\n"))))
-  (setq org-roam-node-display-template "${title:*} ${tags:40}" )
-  (map! :leader
-        :desc "Capture to daily" "D" #'org-roam-dailies-capture-today
-        :prefix ("d" . "dailies")
-        :desc "Find daily for today" "t" #'org-roam-dailies-find-today
-        :desc "Find daily in calendar" "d" #'org-roam-dailies-find-date
-        :desc "Find daily for yesterday" "y" #'org-roam-dailies-find-yesterday
-        :desc "Find next daily" "n" #'org-roam-dailies-find-next-note
-        :desc "Find previous daily" "p" #'org-roam-dailies-find-previous-note)
 
   ;; Tell Doom's popup where to put the org-roam buffer (default is bottom)
   (set-popup-rule! "^\\*org-roam\\*" :side 'right :width 0.381966)
+  (setq org-roam-node-display-template "${title:*} ${tags:40}")
 
   ;; ARCHIVING
   ;; ------------------------------------
