@@ -152,7 +152,7 @@
         +pomodoro        ; be fruitful with the tomato technique
         +present         ; using org-mode for presentations
         +pretty          ; use org-superstar for nice bullets
-        ;;+roam            ; disabled until it updates to V2
+        +roam2            ; disabled until it updates to V2
         )
        ;;perl              ; write code no one else can comprehend
        php               ; perl's insecure younger brother

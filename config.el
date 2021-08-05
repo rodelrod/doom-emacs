@@ -479,9 +479,6 @@ Assumes millisecond timestamps."
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %?\n%U" :if-new
            (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d, %a W%V>\n#+filetags: daily\n"))))
-
-  ;; Tell Doom's popup where to put the org-roam buffer (default is bottom)
-  (set-popup-rule! "^\\*org-roam\\*" :side 'right :width 0.381966)
   (setq org-roam-node-display-template "${title:*} ${tags:40}")
 
   ;; ARCHIVING
@@ -529,14 +526,7 @@ Assumes millisecond timestamps."
       (let ((current-file-directory (f-dirname buffer-file-name)))
         (if (member "ARCHIVE" (f-split current-file-directory))
             (rodelrod/unarchive-org-roam-file)
-          (rodelrod/archive-org-roam-file)))))
-
-  ;; this must come last
-  (org-roam-setup))
-
-
-(use-package! org-roam-protocol
-  :after org-protocol)
+          (rodelrod/archive-org-roam-file))))))
 
 
 ;; (after! ivy-bibtex
