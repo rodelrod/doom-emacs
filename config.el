@@ -526,7 +526,11 @@ Assumes millisecond timestamps."
       (let ((current-file-directory (f-dirname buffer-file-name)))
         (if (member "ARCHIVE" (f-split current-file-directory))
             (rodelrod/unarchive-org-roam-file)
-          (rodelrod/archive-org-roam-file))))))
+          (rodelrod/archive-org-roam-file)))))
+
+  (map! :leader
+        :prefix "n"
+        :desc "Toggle archive org-roam file" "A" #'rodelrod/toggle-archive-org-roam-file))
 
 
 ;; (after! ivy-bibtex
