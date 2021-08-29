@@ -439,6 +439,8 @@ Assumes millisecond timestamps."
           (not (member "ATTACH" (org-get-tags)))))
 
   :config
+  (setq org-roam-node-display-template "${title:*} ${tags:32}")
+
   (map! :leader
         :prefix "n"
         :desc "Insert org-roam link" "i" #'org-roam-node-insert
@@ -479,7 +481,7 @@ Assumes millisecond timestamps."
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %?\n%U" :if-new
            (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d, %a W%V>\n#+filetags: daily\n"))))
-  (setq org-roam-node-display-template "${title:*} ${tags:40}")
+
 
   ;; ARCHIVING
   ;; ------------------------------------
