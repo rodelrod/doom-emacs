@@ -379,8 +379,13 @@ Assumes millisecond timestamps."
           ('error
            (message "org-agenda: %s" (error-message-string ex))
            (delete-frame frame))))))
-  (setq org-refile-targets '((nil :maxlevel . 3)
-                             (org-agenda-files :maxlevel . 1))))
+  (setq org-refile-targets
+        ;; Refile only to dedicated tasks lists and not to any random heading (which can contain notes)
+        `(
+          (,(directory-files (file-truename "~/org/notes/tasks") 'full "\\.org$") :level . 1)
+          (,(directory-files (file-truename "~/org/notes/project") 'full "\\.org$") :tag . "TASKS")
+          (,(directory-files (file-truename "~/org/notes/area") 'full "\\.org$") :tag . "TASKS")
+          )))
 
 
 (after! org-capture
