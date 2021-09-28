@@ -354,14 +354,13 @@ Assumes millisecond timestamps."
            tags "+TIMESTAMP_IA>\"<-1w>\""
            ((org-agenda-sorting-strategy '(tsia-down timestamp-down))))
 
-          ;; Allow me to archive old items. I prefer archiving only level-2
-          ;; headings: Level-1 are Areas and Level-2 can be projects or odd
-          ;; tasks. I want to archive project trees in one go instead of
-          ;; having the tasks scattered in the Archive datetree.
-          ("r" "Tasks/Projects ready to archive (Level-2 items closed more than 2 months ago)"
-           tags "+CLOSED<\"<-2m>\"+LEVEL=2"
-           ;; Only archive TODOs from the tasks files, not project etc.
-           ((org-agenda-files (list (file-truename "~/org/notes/tasks")))))))
+          ;; Allow me to archive old items for area notes only. I want to
+          ;; archive project notes in one go instead of having the tasks
+          ;; scattered in the Archive datetree.
+          ("r" "Area tasks ready to archive"
+           tags "TASKS+CLOSED<\"<-2m>\""
+           ;; Only archive TODOs from the area files, not project etc.
+           ((org-agenda-files (list (file-truename "~/org/notes/area")))))))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
@@ -382,9 +381,7 @@ Assumes millisecond timestamps."
   (setq org-refile-targets
         ;; Refile only to dedicated tasks lists and not to any random heading (which can contain notes)
         `(
-          (,(directory-files (file-truename "~/org/notes/tasks") 'full "\\.org$") :level . 1)
-          (,(directory-files (file-truename "~/org/notes/project") 'full "\\.org$") :tag . "TASKS")
-          (,(directory-files (file-truename "~/org/notes/area") 'full "\\.org$") :tag . "TASKS")
+          (org-agenda-files :tag . "TASKS")
           )))
 
 
