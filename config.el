@@ -461,28 +461,28 @@ Assumes millisecond timestamps."
 
   (setq org-roam-capture-templates
         '(("t" "topic" plain "%?" :if-new
-           (file+head "topic/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: topic\n")
+           (file+head "topic/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :topic:\n")
            :unnarrowed t)
           ("l" "literature" plain "%?" :if-new
-           (file+head "literature/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: literature\n")
+           (file+head "literature/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :literature:\n")
            :unnarrowed t)
           ("p" "project" plain "%?" :if-new
-           (file+head "project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: project\n")
+           (file+head "project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :project:\n")
            :unnarrowed t)
           ("a" "area" plain "%?" :if-new
-           (file+head "area/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: area\n")
+           (file+head "area/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:\n")
            :unnarrowed t)
           ("m" "recurring meeting" plain "%?" :if-new
-           (file+head "meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: meeting\n#+startup: overview\n")
+           (file+head "meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :meeting:\n#+startup: overview\n")
            :unnarrowed t)
           ("w" "who" plain "%?" :if-new
-           (file+head "who/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: who\n")
+           (file+head "who/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :who:\n")
            :unnarrowed t)
           ))
 
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %?\n%U" :if-new
-           (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d, %a W%V>\n#+filetags: daily\n"))))
+           (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d, %a W%V>\n#+filetags: :daily:\n"))))
 
 
   ;; ARCHIVING
