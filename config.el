@@ -182,8 +182,8 @@ Assumes millisecond timestamps."
   :mode "\\.org_archive\\'"
   :init
   (setq org-directory (file-truename "~/org/notes/"))
-  (add-hook! 'org-mode-hook #'(+org-pretty-mode
-                               doom-disable-line-numbers-h))
+  (add-hook! 'org-mode-hook #'doom-disable-line-numbers-h)
+  (add-hook! 'org-mode-hook #'+org-pretty-mode)
   :config
   (setq org-archive-location "ARCHIVE/%s_archive::datetree/"
         org-download-image-org-width 400
