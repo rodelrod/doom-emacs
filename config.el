@@ -181,7 +181,7 @@ Assumes millisecond timestamps."
 (use-package! org
   :mode "\\.org_archive\\'"
   :init
-  (setq org-directory (file-truename "~/org/notes/"))
+  (setq org-directory (file-truename "~/Org/notes/"))
   (add-hook! 'org-mode-hook #'doom-disable-line-numbers-h)
   (add-hook! 'org-mode-hook #'+org-pretty-mode)
   :config
@@ -337,7 +337,7 @@ Assumes millisecond timestamps."
 
 (after! org-agenda
   (setq org-agenda-files (mapcar 'file-truename
-                                 '("~/org/notes/tasks" "~/org/notes/project" "~/org/notes/area")))
+                                 '("~/Org/notes/tasks" "~/Org/notes/project" "~/Org/notes/area")))
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
@@ -360,7 +360,7 @@ Assumes millisecond timestamps."
           ("r" "Area tasks ready to archive"
            tags "TASKS+CLOSED<\"<-2m>\""
            ;; Only archive TODOs from the area files, not project etc.
-           ((org-agenda-files (list (file-truename "~/org/notes/area")))))))
+           ((org-agenda-files (list (file-truename "~/Org/notes/area")))))))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
@@ -429,7 +429,7 @@ Assumes millisecond timestamps."
   :after org
 
   :init
-  (setq org-roam-directory (file-truename "~/org/notes")
+  (setq org-roam-directory (file-truename "~/Org/notes")
         org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
         org-roam-graph-exclude-matcher '("daily/" "tasks/")
@@ -538,10 +538,10 @@ Assumes millisecond timestamps."
 
 
 ;; (after! ivy-bibtex
-;;   (setq bibtex-completion-bibliography "~/org/resources/Zotero.bib"
+;;   (setq bibtex-completion-bibliography "~/Org/resources/Zotero.bib"
 ;;         bibtex-completion-library-path "~/Dropbox/Zotero"
 ;;         bibtex-completion-pdf-field "File"
-;;         bibtex-completion-notes-path "~/org/notes/literature"
+;;         bibtex-completion-notes-path "~/Org/notes/literature"
 ;;         bibtex-completion-notes-template-multiple-files
 ;;         (concat
 ;;          "#+TITLE: ${title}\n"
