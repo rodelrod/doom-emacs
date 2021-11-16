@@ -88,6 +88,9 @@
           [C-i] [?\C-i])))
 (map! :g [C-i] #'evil-jump-forward)
 
+;; HACK Workaround for some errors I've been getting:
+;;   Symbol's function definition is void: \(setf\ persp-window-conf\)
+(persp-mode)
 
 
 ;;
