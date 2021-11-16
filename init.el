@@ -85,7 +85,7 @@
 
        :tools
        ansible
-       biblio
+       ;;biblio            ; waiting for fix https://github.com/hlissner/doom-emacs/issues/5723
        ;;debugger          ; FIXME stepping through code, to help you add bugs
        direnv
        docker
