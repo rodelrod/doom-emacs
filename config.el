@@ -564,6 +564,11 @@ Assumes millisecond timestamps."
 ;;         ))
 
 
+
+(after! persp-mode
+  ;; Do not create new workspace when opening emacsclient
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+
 ;; (after! rustic
 ;;   (setq rustic-flycheck-clippy-params "--message-format=json"))
 
