@@ -572,6 +572,11 @@ Assumes millisecond timestamps."
 ;;   (setq rustic-flycheck-clippy-params "--message-format=json"))
 
 
+(after! tramp
+  ;; Prevent tramp from prompting passphrase for authinfo.gpg, since I don't use
+  ;; that for ssh connections.
+  (setq tramp-completion-use-auth-sources nil))
+
 (after! treemacs
   (defun treemacs-custom-filter (filename _)
     (or (s-equals? "__pycache__" filename)
