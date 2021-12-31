@@ -77,6 +77,10 @@
   ;; '(org-ellipsis :distant-foreground "dim gray")
   )
 
+;; Allow changing Org Attach directory for DBG
+(custom-set-variables
+ '(safe-local-variable-values '((org-attach-id-dir . "~/OneDrive/Org/dbg/.attach/"))))
+
 ;; HACK Emacs cannot distinguish C-i from TAB, which is disturbing. Instead,
 ;;      let's at least make GUI Emacs aware of this distinction:
 ;; (This code was committed (2020-05-11) then reverted (2020-05-13) from
@@ -339,7 +343,14 @@ Assumes millisecond timestamps."
 
 (after! org-agenda
   (setq org-agenda-files (mapcar 'file-truename
-                                 '("~/Org/notes/tasks" "~/Org/notes/project" "~/Org/notes/area")))
+                                 '("~/Org/notes/tasks"
+                                   "~/Org/notes/area"
+                                   "~/Org/notes/project"
+                                   "~/Org/notes/client/dbg/area"
+                                   "~/Org/notes/client/dbg/project"
+                                   "~/Org/notes/client/magicfil/area"
+                                   "~/Org/notes/client/magicfil/project"
+                                   )))
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
@@ -362,7 +373,11 @@ Assumes millisecond timestamps."
           ("r" "Area tasks ready to archive"
            tags "TASKS+CLOSED<\"<-2m>\""
            ;; Only archive TODOs from the area files, not project etc.
-           ((org-agenda-files (list (file-truename "~/Org/notes/area")))))))
+           ((org-agenda-files (mapcar 'file-truename
+                                      '("~/Org/notes/area"
+                                        "~/Org/notes/client/dbg/area"
+                                        "~/Org/notes/client/magicfil/area"
+                                        )))))))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
@@ -469,13 +484,22 @@ Assumes millisecond timestamps."
           ("l" "literature" plain "%?" :if-new
            (file+head "literature/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :literature:\n")
            :unnarrowed t)
-          ("p" "project" plain "%?" :if-new
+          ("p" "DBG project" plain "%?" :if-new
+           (file+head "client/dbg/project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :project:dbg:\n")
+           :unnarrowed t)
+          ("P" "project" plain "%?" :if-new
            (file+head "project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :project:\n")
            :unnarrowed t)
-          ("a" "area" plain "%?" :if-new
+          ("a" "DBG area" plain "%?" :if-new
+           (file+head "client/dbg/area/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:dbg:\n")
+           :unnarrowed t)
+          ("A" "area" plain "%?" :if-new
            (file+head "area/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:\n")
            :unnarrowed t)
-          ("m" "recurring meeting" plain "%?" :if-new
+          ("m" "DBG recurring meeting" plain "%?" :if-new
+           (file+head "client/dbg/meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :meeting:dbg:\n#+startup: overview\n")
+           :unnarrowed t)
+          ("M" "recurring meeting" plain "%?" :if-new
            (file+head "meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :meeting:\n#+startup: overview\n")
            :unnarrowed t)
           ("w" "who" plain "%?" :if-new
