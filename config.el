@@ -470,11 +470,11 @@ Assumes millisecond timestamps."
   (map! :leader
         :desc "Capture to daily" "D" #'org-roam-dailies-capture-today
         :prefix ("d" . "dailies")
-        :desc "Find daily for today" "t" #'org-roam-dailies-find-today
-        :desc "Find daily in calendar" "d" #'org-roam-dailies-find-date
-        :desc "Find daily for yesterday" "y" #'org-roam-dailies-find-yesterday
-        :desc "Find next daily" "n" #'org-roam-dailies-find-next-note
-        :desc "Find previous daily" "p" #'org-roam-dailies-find-previous-note)
+        :desc "Find daily for today" "t" #'org-roam-dailies-goto-today
+        :desc "Find daily in calendar" "d" #'org-roam-dailies-goto-date
+        :desc "Find daily for yesterday" "y" #'org-roam-dailies-goto-yesterday
+        :desc "Find next daily" "n" #'org-roam-dailies-goto-next-note
+        :desc "Find previous daily" "p" #'org-roam-dailies-goto-previous-note)
 
   (setq org-roam-capture-templates
         '(("t" "topic" plain "%?" :if-new
