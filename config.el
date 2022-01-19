@@ -378,6 +378,10 @@ Assumes millisecond timestamps."
                                         "~/Org/notes/client/dbg/area"
                                         "~/Org/notes/client/magicfil/area"
                                         )))))))
+  (setq org-refile-targets
+        ;; Refile only to dedicated tasks lists and not to any random heading (which can contain notes)
+        ;; /!\ This will not work if the heading has a creation timestamp as I usually do!
+        '((org-agenda-files :tag . "TASKS")))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
@@ -394,12 +398,7 @@ Assumes millisecond timestamps."
               (org-agenda arg "n"))
           ('error
            (message "org-agenda: %s" (error-message-string ex))
-           (delete-frame frame))))))
-  (setq org-refile-targets
-        ;; Refile only to dedicated tasks lists and not to any random heading (which can contain notes)
-        `(
-          (org-agenda-files :tag . "TASKS")
-          )))
+           (delete-frame frame)))))))
 
 
 (after! org-capture
