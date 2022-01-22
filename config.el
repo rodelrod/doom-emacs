@@ -381,7 +381,7 @@ Assumes millisecond timestamps."
   ;; Refile only to dedicated tasks lists and not to any random heading (which can contain notes)
   ;; /!\ This will not work if the heading has a creation timestamp!
   (setq org-refile-use-outline-path nil    ;; default 'file would show all file names and allow refiling to top-level which I don't want
-        org-reverse-note-order t           ;; store refiled items at the bottom of the task list
+        org-reverse-note-order nil         ;; store refiled items at the bottom of the task list
         org-refile-targets '((org-agenda-files :tag . "TASKS")))
 
   ;; Function used to launch agenda on emacs client startup
