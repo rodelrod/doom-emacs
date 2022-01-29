@@ -206,6 +206,10 @@ Assumes millisecond timestamps."
         tab-width 3
         )
 
+  ;; HACK I've been having freezes due to org-element-cache.
+  ;;      Check status of https://github.com/kaushalmodi/ox-hugo/issues/487
+  (setq org-element-use-cache nil)
+
   ;; Use the fold prefix `z' for outline navigation
   ;; and recover `gk' and `gj' for visual line up and down
   (map! :map org-mode-map
