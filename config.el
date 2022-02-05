@@ -596,6 +596,7 @@ Assumes millisecond timestamps."
   ;; Do not create new workspace when opening emacsclient
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 
+
 ;; (after! rustic
 ;;   (setq rustic-flycheck-clippy-params "--message-format=json"))
 
@@ -621,8 +622,7 @@ Assumes millisecond timestamps."
   (defun treemacs-custom-filter (filename _)
     (or (s-equals? "__pycache__" filename)
         (s-ends-with? ".pyc" filename)))
-  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-custom-filter)
-  )
+  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-custom-filter))
 
 
 (after! whitespace
