@@ -600,6 +600,18 @@ Assumes millisecond timestamps."
 ;;   (setq rustic-flycheck-clippy-params "--message-format=json"))
 
 
+(after! python
+  (map! :localleader
+        :prefix ("o" . "Open")
+        :desc "Python REPL" "r" #'+python/open-repl
+        :desc "iPython" "i" #'+python/open-ipython-repl
+        :desc "Jupyter" "j" #'+python/open-jupyter-repl
+        :prefix ("s" . "Send to REPL")
+        :desc "Send buffer to REPL" "b" #'python-shell-send-buffer
+        :desc "Send file to REPL" "f" #'python-shell-send-file
+        :desc "Send region to REPL" "r" #'python-shell-send-region))
+
+
 (after! tramp
   ;; Prevent tramp from prompting passphrase for authinfo.gpg, since I don't use
   ;; that for ssh connections.
