@@ -240,6 +240,7 @@ Assumes millisecond timestamps."
           ("\\.png\\'" . system)
           ("\\.jpg\\'" . system)
           ("\\.svg\\'" . system)
+          ("\\.xslx\\'" . system)
           ))
 
   ;; Export to an `./exports' directory to prevent cluttering the main file and
