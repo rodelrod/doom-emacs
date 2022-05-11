@@ -101,20 +101,56 @@
 ;;; Utils
 
 
-(defun rodelrod/evernote-date-to-org-timestamp ()
+(defun rodelrod/regex-replace-at-point (source-regex replacement)
+  "Convert string matching source-regex under or behind cursor.
+Only looks in the current line and replaces the closest match."
+  (save-excursion
+    (while (and
+            (>= (point) (line-beginning-position))
+            (not (looking-at source-regex)))
+      (backward-word))
+    (replace-match replacement)))
+
+(defun rodelrod/convert-evernote-datetime-at-point-to-org-timestamp ()
+  "Convert Evernote datetime under or behind cursor with an org inactive timestamp.
+Only looks in the current line and replaces the closest match."
+  (interactive)
+  (let ((evernote-datetime-regex
+         "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\([0-9]\\{2\\}:[0-9]\\{2\\}\\)\\( --\\)?")
+        (org-mode-datetime-replacement
+         "[\\3-\\2-\\1 \\4]"))
+    (rodelrod/regex-replace-at-point evernote-datetime-regex org-mode-datetime-replacement)))
+
+(defun rodelrod/convert-evernote-date-at-point-to-org-timestamp ()
   "Convert Evernote date under or behind cursor with an org inactive timestamp.
 Only looks in the current line and replaces the closest match."
   (interactive)
-  (let ((evernote-data-regex
-         "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\([0-9]\\{2\\}:[0-9]\\{2\\}\\)\\( --\\)?")
-        (org-mode-replacement
-         "[\\3-\\2-\\1 \\4]"))
-    (save-excursion
-      (while (and
-              (>= (point) (line-beginning-position))
-              (not (looking-at evernote-data-regex)))
-        (backward-word))
-      (replace-match org-mode-replacement))))
+  (let ((evernote-date-regex
+         "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\( --\\)?")
+        (org-mode-date-replacement
+         "[\\3-\\2-\\1]"))
+    (rodelrod/regex-replace-at-point evernote-date-regex org-mode-date-replacement)))
+
+(defun rodelrod/regex-replace-all (source-regex replacement)
+  "Convert string matching source-regex in the current buffer."
+  (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward source-regex nil t)
+        (replace-match replacement))))
+
+(defun rodelrod/convert-all-evernote-dates-to-org-timestamp ()
+    "Convert all Evernote formatted dates and datetimes in the current buffer to org-mode inactive timestamps"
+    (interactive)
+    (let ((evernote-datetime-regex
+           "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\([0-9]\\{2\\}:[0-9]\\{2\\}\\)\\( --\\)?")
+          (org-mode-datetime-replacement
+           "[\\3-\\2-\\1 \\4]")
+          (evernote-date-regex
+           "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\( --\\)?")
+          (org-mode-date-replacement
+           "[\\3-\\2-\\1]"))
+      (rodelrod/regex-replace-all evernote-datetime-regex org-mode-datetime-replacement)
+      (rodelrod/regex-replace-all evernote-date-regex org-mode-date-replacement)))
 
 (defun rodelrod/json-timestamp-to-iso ()
   "Echo the ISO data time version of the json timestamp under the cursor or selected.
@@ -300,16 +336,7 @@ Assumes millisecond timestamps."
         :desc "Open link in split" :n "o s" #'rodelrod/org-open-link-split
         :desc "Open link in vertical split" :n "o v" #'rodelrod/org-open-link-vsplit)
 
-  (defun rodelrod/convert-evernote-dates-to-org-timestamp ()
-    "Convert all Evernote formatted dates in the current buffer to org-mode inactive timestamps"
-    (interactive)
-    (let ((evernote_data_regex
-           "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\([0-9]\\{2\\}:[0-9]\\{2\\}\\)\\( --\\)?")
-          (org_mode_replacement
-           "[\\3-\\2-\\1 \\4]"))
-      (goto-char (point-min))
-      (while (re-search-forward evernote_data_regex nil t)
-        (replace-match org_mode_replacement))))
+
 
 
   ;;
