@@ -631,14 +631,14 @@ Assumes millisecond timestamps."
 
 (after! python
   (map! :localleader
-        :prefix ("o" . "Open")
-        :desc "Python REPL" "r" #'+python/open-repl
-        :desc "iPython" "i" #'+python/open-ipython-repl
-        :desc "Jupyter" "j" #'+python/open-jupyter-repl
-        :prefix ("s" . "Send to REPL")
-        :desc "Send buffer to REPL" "b" #'python-shell-send-buffer
-        :desc "Send file to REPL" "f" #'python-shell-send-file
-        :desc "Send region to REPL" "r" #'python-shell-send-region))
+        (:prefix ("o" . "Open")
+         :desc "Python REPL" "r" #'+python/open-repl
+         :desc "iPython" "i" #'+python/open-ipython-repl
+         :desc "Jupyter" "j" #'+python/open-jupyter-repl)
+        (:prefix ("s" . "Send to REPL")
+         :desc "Send buffer to REPL" "b" #'python-shell-send-buffer
+         :desc "Send file to REPL" "f" #'python-shell-send-file
+         :desc "Send region to REPL" "r" #'python-shell-send-region)))
 
 
 (after! tramp
