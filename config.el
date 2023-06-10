@@ -109,7 +109,7 @@ Only looks in the current line and replaces the closest match."
             (>= (point) (line-beginning-position))
             (not (looking-at source-regex)))
       (backward-word))
-    (replace-match replacement)))
+    (replace-match replacement t)))
 
 (defun rodelrod/convert-evernote-datetime-at-point-to-org-timestamp ()
   "Convert Evernote datetime under or behind cursor with an org inactive timestamp.
@@ -136,7 +136,7 @@ Only looks in the current line and replaces the closest match."
   (save-excursion
       (goto-char (point-min))
       (while (re-search-forward source-regex nil t)
-        (replace-match replacement))))
+        (replace-match replacement t))))
 
 (defun rodelrod/convert-all-evernote-dates-to-org-timestamp ()
     "Convert all Evernote formatted dates and datetimes in the current buffer to org-mode inactive timestamps"
