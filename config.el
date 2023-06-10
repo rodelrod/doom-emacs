@@ -162,6 +162,19 @@ Assumes millisecond timestamps."
      (format-time-string "%Y-%m-%d %H:%M:%S"
                          (seconds-to-time (/ timestamp 1000))))))
 
+(defun rodelrod/convert-all-dbg-jira-to-link ()
+  "Convert all strings that look like DBG JIRA tickets to links"
+  (interactive)
+  (let ((jira-projects '("PID-2000" "SBD-" "CFCCON-"))
+        (dbg-jira-replacement
+         "\\1[[https://jiradbg.deutsche-boerse.de/browse/\\2][\\2]]"))
+    (dolist (jira-project jira-projects)
+      (let ((dbg-jira-regex
+             (rx
+              (group (or (not (any "[" "/")) bol))
+              (group (regexp jira-project) (repeat 3 6 digit)))))
+        (rodelrod/regex-replace-all dbg-jira-regex dbg-jira-replacement)))))
+
 ;; From https://ivanaf.com/emacs_drag-drop_pdfs_paste_html_custom_templates.html
 (defun html2org-clipboard ()
   "Convert clipboard contents from HTML to Org and then paste (yank)."
