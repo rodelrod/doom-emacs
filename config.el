@@ -139,21 +139,23 @@ Only looks in the current line and replaces the closest match."
         (replace-match replacement t))))
 
 (defun rodelrod/convert-all-evernote-dates-to-org-timestamp ()
-    "Convert all Evernote formatted dates and datetimes in the current buffer to org-mode inactive timestamps"
-    (interactive)
-    (let ((evernote-datetime-regex
-           "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\([0-9]\\{2\\}:[0-9]\\{2\\}\\)\\( --\\)?")
-          (org-mode-datetime-replacement
-           "[\\3-\\2-\\1 \\4]")
-          (evernote-date-regex
-           "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\( --\\)?")
-          (org-mode-date-replacement
-           "[\\3-\\2-\\1]"))
-      (rodelrod/regex-replace-all evernote-datetime-regex org-mode-datetime-replacement)
-      (rodelrod/regex-replace-all evernote-date-regex org-mode-date-replacement)))
+  "Convert all Evernote formatted dates and datetimes in the current buffer
+ to org-mode inactive timestamps"
+  (interactive)
+  (let ((evernote-datetime-regex
+         "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\([0-9]\\{2\\}:[0-9]\\{2\\}\\)\\( --\\)?")
+        (org-mode-datetime-replacement
+         "[\\3-\\2-\\1 \\4]")
+        (evernote-date-regex
+         "\\([0-9]\\{2\\}\\)/\\([0-9]\\{2\\}\\)/\\([0-9]\\{4\\}\\) \\( --\\)?")
+        (org-mode-date-replacement
+         "[\\3-\\2-\\1]"))
+    (rodelrod/regex-replace-all evernote-datetime-regex org-mode-datetime-replacement)
+    (rodelrod/regex-replace-all evernote-date-regex org-mode-date-replacement)))
 
 (defun rodelrod/json-timestamp-to-iso ()
-  "Echo the ISO data time version of the json timestamp under the cursor or selected.
+  "Echo the ISO data time version of the json timestamp under the cursor
+or selected.
 Assumes millisecond timestamps."
   (interactive)
   (let (timestamp)
@@ -368,7 +370,8 @@ Assumes millisecond timestamps."
   ;;  - ACTIVE: if the heading contains at least one subtask to be done
   ;;  - MUTED: if there's no subtask to be done
   (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to ~n-done~ when all subentries are done, to ~n-not-done~ otherwise."
+    "Switch entry to ~n-done~ when all subentries are done,
+or to ~n-not-done~ otherwise."
     ;; HACK: We want to shadow a couple of variables to turn off logging below,
     ;; but since lexical binding is on in this file, we need to force dynamic
     ;; binding using defvar.
@@ -677,7 +680,8 @@ Assumes millisecond timestamps."
 
   (defun rodelrod/toggle-show-all-whitespace ()
     "Toggle showing all whitespace as visible characters.
-Toggles between Doom's very bare default style and a more complete style showing almost everything."
+Toggles between Doom's very bare default style and a more complete style
+showing almost everything."
     (interactive)
     (let* ((doom-style
             '(face tabs tab-mark))
@@ -702,6 +706,7 @@ Toggles between Doom's very bare default style and a more complete style showing
   :config
   (setq +zen-text-scale 1)  ; default 2 was a bit too big
   (defun rodelrod/switch-off-hl-line ()
-    "Deactivate highlighting current line entering writeroom mode and reactivate upon exit"
+    "Deactivate highlighting current line entering writeroom mode
+and reactivate upon exit"
      (hl-line-mode (if writeroom-mode -1 +1)))
   (add-hook 'writeroom-mode-hook #'rodelrod/switch-off-hl-line))
