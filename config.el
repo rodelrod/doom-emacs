@@ -619,6 +619,10 @@ or to ~n-not-done~ otherwise."
         :desc "Toggle archive org-roam file" "A" #'rodelrod/toggle-archive-org-roam-file))
 
 
+  (use-package! org-who
+    :after org)
+
+
 ;; (after! ivy-bibtex
 ;;   (setq bibtex-completion-bibliography "~/Org/resources/Zotero.bib"
 ;;         bibtex-completion-library-path "~/Dropbox/Zotero"

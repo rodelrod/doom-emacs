@@ -51,3 +51,5 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! blacken)
+(package! org-who
+  :recipe (:local-repo "lisp/org-who"))
