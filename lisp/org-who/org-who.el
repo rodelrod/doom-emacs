@@ -152,7 +152,6 @@ used when gathering from the body: this function will try to match only
 ;; --------------------------
 (defun org-who--gather-from-who-line ()
   "Gather who-items from lines starting with `- who ::'"
-  (interactive)
   (goto-char (point-min))
   (let ((items-from-who-line '()))
     (while (re-search-forward
@@ -187,7 +186,6 @@ used when gathering from the body: this function will try to match only
 
 (defun org-who--gather-from-who-list ()
   "Gather who-items from lines top-level unordered lists"
-  (interactive)
   (let ((who-list-elements (org-who--get-who-list-elements))
         (who-list-items '()))
     (dolist
@@ -203,7 +201,6 @@ used when gathering from the body: this function will try to match only
 ;; ----------------------
 (defun org-who--gather-from-body ()
   "Gather who-items from anywhere except who lines and lists"
-  (interactive)
   (save-excursion
     (goto-char (point-min))
     (let ((case-fold-search nil)
