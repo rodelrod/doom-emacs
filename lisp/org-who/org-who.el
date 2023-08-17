@@ -37,8 +37,7 @@
 ;; -----
 (defun org-who-hoist ()
   (interactive)
-  (let* ((tree (org-element-parse-buffer))
-         (main-who-headline-elt (org-who--get-main-who-headline-element tree))
+  (let* ((main-who-headline-elt (org-who--get-main-who-headline-element))
          (main-who-list-elt (org-who--get-main-who-list-element main-who-headline-elt))
          (main-who-list (org-who--get-list-from-element main-who-list-elt))
          (who-list-items (org-who--gather-from-who-list))
@@ -99,21 +98,32 @@
 
 ;; Main Who List
 ;; -----------------
-(defun org-who--get-main-who-headline-element (tree)
-  (let* ((headlines (org-element-map tree 'headline
+(defun org-who--get-main-who-headline-element ()
+  (let* ((tree (org-element-parse-buffer))
+         (headlines (org-element-map tree 'headline
                       (lambda (headline)
                         (when (and
                                (string= (org-element-property :raw-value headline) "Who")
                                (eq (org-element-property :level headline) 1))    ; main Who is at top-level
                           headline))))
          (who-headline (car headlines)))
-    (unless headlines (error "\"* Who\" headline not found in this buffer"))
-    who-headline))
+    (if who-headline
+        who-headline
+      (progn
+        (org-who--create-who-headline)
+        (org-who--get-main-who-headline-element)))))
 
 (defun org-who--get-main-who-list-element (who-headline)
   (let* ((main-who-list-elements (org-element-map who-headline 'plain-list #'identity))
          (main-who-list-elt (car main-who-list-elements)))
     main-who-list-elt))
+
+(defun org-who--create-who-headline ()
+  (goto-char (point-min))
+  (if (re-search-forward "^\\*" nil t)
+      (beginning-of-line)
+    (goto-char (point-max)))
+  (insert "\n* Who\n"))
 
 (defun org-who--get-list-from-element (main-who-list-elt)
   (org-who--gather-from-list-in-region
