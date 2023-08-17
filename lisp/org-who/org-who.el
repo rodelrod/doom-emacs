@@ -39,7 +39,9 @@
   (interactive)
   (let* ((main-who-headline-elt (org-who--get-main-who-headline-element))
          (main-who-list-elt (org-who--get-main-who-list-element main-who-headline-elt))
-         (main-who-list (org-who--get-list-from-element main-who-list-elt))
+         (main-who-list (if main-who-list-elt
+                            (org-who--get-list-from-element main-who-list-elt)
+                          '()))
          (who-list-items (org-who--gather-from-who-list))
          (who-line-items (org-who--gather-from-who-line))
          (body-items (org-who--gather-from-body)))
@@ -123,7 +125,7 @@
   (if (re-search-forward "^\\*" nil t)
       (beginning-of-line)
     (goto-char (point-max)))
-  (insert "\n* Who\n"))
+  (insert "\n* Who\n- DUMMY\n\n"))
 
 (defun org-who--get-list-from-element (main-who-list-elt)
   (org-who--gather-from-list-in-region
