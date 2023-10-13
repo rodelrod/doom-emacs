@@ -134,9 +134,9 @@ Only looks in the current line and replaces the closest match."
 (defun rodelrod/regex-replace-all (source-regex replacement)
   "Convert string matching source-regex in the current buffer."
   (save-excursion
-      (goto-char (point-min))
-      (while (re-search-forward source-regex nil t)
-        (replace-match replacement t))))
+    (goto-char (point-min))
+    (while (re-search-forward source-regex nil t)
+      (replace-match replacement t))))
 
 (defun rodelrod/convert-all-evernote-dates-to-org-timestamp ()
   "Convert all Evernote formatted dates and datetimes in the current buffer
@@ -182,15 +182,15 @@ Assumes millisecond timestamps."
   "Convert clipboard contents from HTML to Org and then paste (yank)."
   (interactive)
   (let* (
-       (text_html (gui-backend-get-selection 'PRIMARY 'text/html))
-       (text_raw (gui-get-selection))
-       (text_html (when text_html
-                    (decode-coding-string text_html 'unix)))
-       (text_html (when text_html
-                    (shell-command-to-string (concat "echo "  (shell-quote-argument text_html) "|timeout 2  pandoc -f html-native_divs-native_spans -t org"))))
-       (text (or text_html
-               text_raw))
-       )
+         (text_html (gui-backend-get-selection 'PRIMARY 'text/html))
+         (text_raw (gui-get-selection))
+         (text_html (when text_html
+                      (decode-coding-string text_html 'unix)))
+         (text_html (when text_html
+                      (shell-command-to-string (concat "echo "  (shell-quote-argument text_html) "|timeout 2  pandoc -f html-native_divs-native_spans -t org"))))
+         (text (or text_html
+                   text_raw))
+         )
     (progn  (kill-new text) (yank))))
 
 
@@ -458,27 +458,27 @@ or to ~n-not-done~ otherwise."
         ;; Looking for the meaning of the '%' placeholders?
         ;; Check https://orgmode.org/manual/Template-expansion.html#Template-expansion
         '(("t" "todo" entry
-            (file "tasks/inbox.org")
-            "* TODO %?\n%U\n")
+           (file "tasks/inbox.org")
+           "* TODO %?\n%U\n")
           ("l" "todo with link" entry
-            (file "tasks/inbox.org")
-            "* TODO %?\n%U\n%i\n%a\n")
+           (file "tasks/inbox.org")
+           "* TODO %?\n%U\n%i\n%a\n")
           ("n" "note wih link" entry
-            (file "tasks/inbox.org")
-            "* %?\n%U\n%i\n%a\n")
+           (file "tasks/inbox.org")
+           "* %?\n%U\n%i\n%a\n")
           ("r" "weekly org review" entry
-            (file "tasks/weekly_reviews.org")
-            (file "templates/weekly_review.org") :prepend t)
+           (file "tasks/weekly_reviews.org")
+           (file "templates/weekly_review.org") :prepend t)
           ("p" "Protocol Snippet" entry
-            (file "tasks/inbox.org")
-            "* %a\n%U\n\n#+begin_quote\n%i\n#+end_quote\n\n%?"
-            :empty-lines 1
-            :immediate-finish t)
+           (file "tasks/inbox.org")
+           "* %a\n%U\n\n#+begin_quote\n%i\n#+end_quote\n\n%?"
+           :empty-lines 1
+           :immediate-finish t)
           ("L" "Protocol Link" entry
-            (file "tasks/inbox.org")
-            "* %a\n%U"
-            :empty-lines 1
-            :immediate-finish t))))
+           (file "tasks/inbox.org")
+           "* %a\n%U"
+           :empty-lines 1
+           :immediate-finish t))))
 
 
 (after! (org-agenda org-capture)
@@ -564,11 +564,11 @@ or to ~n-not-done~ otherwise."
           ))
 
   (add-to-list 'display-buffer-alist
-             '("\\*org-roam\\*"
-               (display-buffer-in-direction)
-               (direction . right)
-               (window-width . 0.33)
-               (window-height . fit-window-to-buffer)))
+               '("\\*org-roam\\*"
+                 (display-buffer-in-direction)
+                 (direction . right)
+                 (window-width . 0.33)
+                 (window-height . fit-window-to-buffer)))
 
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %?\n%U" :if-new
@@ -627,8 +627,8 @@ or to ~n-not-done~ otherwise."
         :desc "Toggle archive org-roam file" "A" #'rodelrod/toggle-archive-org-roam-file))
 
 
-  (use-package! org-who
-    :after org)
+(use-package! org-who
+  :after org)
 
 
 ;; (after! ivy-bibtex
@@ -720,5 +720,5 @@ showing almost everything."
   (defun rodelrod/switch-off-hl-line ()
     "Deactivate highlighting current line entering writeroom mode
 and reactivate upon exit"
-     (hl-line-mode (if writeroom-mode -1 +1)))
+    (hl-line-mode (if writeroom-mode -1 +1)))
   (add-hook 'writeroom-mode-hook #'rodelrod/switch-off-hl-line))
