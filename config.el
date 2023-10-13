@@ -508,6 +508,14 @@ or to ~n-not-done~ otherwise."
   :config
   (setq org-roam-node-display-template "${title:*} ${tags:32}")
 
+  ;; HACK Doom introduced an optimization to use fd instead of find.
+  ;;      However fd will exclude files in .gitignore by default.
+  ;;      We can try to fix the calls to fd by adding the -I option.
+  ;;      Or we can change the order to use find instead.
+  ;;      This is only necessary because I have a dbg directory that
+  ;;      I do not want to track in the main git repo.
+  (setq org-roam-list-files-commands '(find fd fdfind rg))
+
   (map! :leader
         :prefix "n"
         :desc "Insert org-roam link" "i" #'org-roam-node-insert
