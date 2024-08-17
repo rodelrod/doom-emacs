@@ -51,5 +51,7 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! blacken)
+(package! org-ql)
+(package! org-super-agenda)
 (package! org-who
   :recipe (:local-repo "lisp/org-who"))
