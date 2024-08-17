@@ -243,8 +243,7 @@ Assumes millisecond timestamps."
   (add-hook! 'org-mode-hook #'doom-disable-line-numbers-h)
   (add-hook! 'org-mode-hook #'+org-pretty-mode)
   :config
-  (setq org-archive-location "ARCHIVE/%s_archive::datetree/"
-        org-download-image-org-width 400
+  (setq org-download-image-org-width 400
         org-ellipsis " ▶"
         org-enforce-todo-dependencies t
         org-list-indent-offset 1                      ; indent plain lists with 3 spaces
