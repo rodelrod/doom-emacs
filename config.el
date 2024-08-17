@@ -395,6 +395,7 @@ or to ~n-not-done~ otherwise."
                                    "~/Org/notes/project"
                                    "~/Org/notes/client/dbg/area"
                                    "~/Org/notes/client/dbg/project"
+                                   "~/Org/notes/client/dbg/meeting"
                                    "~/Org/notes/client/magicfil/area"
                                    "~/Org/notes/client/magicfil/project"
                                    )))
