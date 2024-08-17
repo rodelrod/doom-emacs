@@ -520,7 +520,7 @@ or to ~n-not-done~ otherwise."
         :desc "Insert org-roam link" "i" #'org-roam-node-insert
         :desc "Find in org-roam notes" "f" #'org-roam-node-find
         :desc "Show org-roam Graph" "g" #'org-roam-graph
-        :desc "Toggle org-roam Buffer" "r" #'org-roam-buffer-toggle
+        ;; :desc "Toggle org-roam Buffer" "r" #'org-roam-buffer-toggle
         :desc "Add roam files to org-id to fix export" "I" #'org-roam-update-org-id-locations)
 
   (map! :leader
