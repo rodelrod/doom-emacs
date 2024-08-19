@@ -52,6 +52,7 @@
 
 (package! blacken)
 (package! org-ql)
+(package! org-roam-ui)
 (package! org-super-agenda)
 (package! org-who
   :recipe (:local-repo "lisp/org-who"))
