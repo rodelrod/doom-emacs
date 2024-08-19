@@ -468,7 +468,7 @@ or to ~n-not-done~ otherwise."
            "* %?\n%U\n%i\n%a\n")
           ("r" "weekly org review" entry
            (file "tasks/weekly_reviews.org")
-           (file "templates/weekly_review.org") :prepend t)
+           (file "~/Org/templates/weekly_review.org") :prepend t)
           ("p" "Protocol Snippet" entry
            (file "tasks/inbox.org")
            "* %a\n%U\n\n#+begin_quote\n%i\n#+end_quote\n\n%?"
