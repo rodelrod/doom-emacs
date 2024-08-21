@@ -400,39 +400,10 @@ if does not exist, inserting the contents of the template file"
         :prefix "n"
         :desc "Go to weekly review" "w" #'rodelrod/go-to-weekly-review)
 
-  ;;
-  ;; ProjectState Property
-  ;; ---
-  ;; The ProjectState property is set automatically on every heading that has a
-  ;; statistics cookie.
-
-  ;; Set ACTIVE and MUTED as allowed values for ProjectState
-  (defun org-property-set-allowed-project-states (property)
-    "Set allowed valued for the ProjectState property."
-    (when (equal property "ProjectState") '("ACTIVE" "MUTED")))
-  (add-hook 'org-property-allowed-value-functions 'org-property-set-allowed-project-states)
-
-  ;;  Set ProjectState automatically to:
-  ;;  - ACTIVE: if the heading contains at least one subtask to be done
-  ;;  - MUTED: if there's no subtask to be done
-  (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to ~n-done~ when all subentries are done,
-or to ~n-not-done~ otherwise."
-    ;; HACK: We want to shadow a couple of variables to turn off logging below,
-    ;; but since lexical binding is on in this file, we need to force dynamic
-    ;; binding using defvar.
-    (defvar org-log-done)
-    (defvar org-log-states)
-    (let (org-log-done org-log-states)   ; turn off logging
-      (org-set-property "ProjectState" (if (= n-not-done 0) "MUTED" "ACTIVE")))
-    (ignore n-done))   ; reassure the bytecomp that we know we're not using the variable
-  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-
-  ;; List as stuck project if ProjectState property is ACTIVE but it has no
-  ;; sub-task marked as NEXT; except if project is marked as a SOMEDAY, DONE
-  ;; or CANCELLED todo item.
+  ;; Stuck project definition
+  (add-to-list 'org-tags-exclude-from-inheritance "PROJECT")
   (setq org-stuck-projects
-        '("+ProjectState=\"ACTIVE\"/-SOMEDAY-DONE-CANCELLED" ("NEXT") nil "")))
+        '("+PROJECT" ("NEXT") nil "SCHEDULED:")))
 
 
 (after! org-agenda
