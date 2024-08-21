@@ -593,10 +593,10 @@ or to ~n-not-done~ otherwise."
            (file+head "project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :project:\n")
            :unnarrowed t)
           ("a" "DBG area" plain "%?" :if-new
-           (file+head "client/dbg/area/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:dbg:\n")
+           (file+head "client/dbg/area/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:dbg:\n")
            :unnarrowed t)
           ("A" "area" plain "%?" :if-new
-           (file+head "area/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:\n")
+           (file+head "area/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:\n")
            :unnarrowed t)
           ("m" "DBG recurring meeting" plain "%?" :if-new
            (file+head "client/dbg/meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :meeting:dbg:\n#+startup: overview\n")
