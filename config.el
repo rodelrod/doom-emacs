@@ -350,8 +350,54 @@ Assumes millisecond timestamps."
         :desc "Open link in split" :n "o s" #'rodelrod/org-open-link-split
         :desc "Open link in vertical split" :n "o v" #'rodelrod/org-open-link-vsplit)
 
+  ;;
+  ;; Weekly Reviews
+  ;; --------------
+  ;; Create a weekly review entry in a week datetree based on a template.
+  (require 'f)
+  (defun rodelrod/org-datetree-find-iso-week-create (d &optional template-file)
+    "Find or create an ISO week entry for date D.
+Compared to `org-datetree-find-iso-week-create' this function does not create a
+day entry under the week. Only headers for the year and the week are created.
+A TEMPLATE-FILE can be read to insert text after the week heading when
+and only when it is first created."
+    (goto-char (point-min))
+    (require 'cal-iso)
+    (let* ((year (calendar-extract-year d))
+           (month (calendar-extract-month d))
+           (day (calendar-extract-day d))
+           (time (encode-time 0 0 0 day month year))
+           (iso-date (calendar-iso-from-absolute
+                      (calendar-absolute-from-gregorian d)))
+           (weekyear (nth 2 iso-date))
+           (week (nth 0 iso-date)))
+      ;; ISO 8601 week format is %G-W%V(-%u)
+      (org-datetree--find-create
+       "^\\*+[ \t]+\\([12][0-9]\\{3\\}\\)\\(\\s-*?\
+\\([ \t]:[[:alnum:]:_@#%%]+:\\)?\\s-*$\\)"
+       weekyear nil nil
+       (format-time-string "%G" time))
+      (org-datetree--find-create
+       "^\\*+[ \t]+%d-W\\([0-5][0-9]\\)$"
+       weekyear week nil
+       (concat
+        (format-time-string "%G-W%V" time)
+        "\n"
+        (f-read-text template-file)))))
 
+  (defun rodelrod/go-to-weekly-review ()
+    "Visit weekly review file in headline for current week.  Headline is created
+if does not exist, inserting the contents of the template file"
+    (interactive)
+    (let ((reviews-file  "~/Org/notes/tasks/weekly_reviews.org")
+          (template-file  "~/Org/templates/weekly_review.org"))
+      (find-file reviews-file)
+      (rodelrod/org-datetree-find-iso-week-create (calendar-current-date) template-file)))
 
+  (map! :map org-mode-map
+        :leader
+        :prefix "n"
+        :desc "Go to weekly review" "w" #'rodelrod/go-to-weekly-review)
 
   ;;
   ;; ProjectState Property
