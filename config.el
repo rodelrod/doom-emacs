@@ -253,7 +253,7 @@ Assumes millisecond timestamps."
         org-reverse-note-order t
         org-startup-folded 'content
         org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)"))
-        tab-width 3
+        tab-width 8      ; 8 is insane but necessary since Org 9.7 (see https://lists.gnu.org/archive/html/emacs-orgmode/2023-12/msg00284.html)
         )
 
   ;; HACK I've been having freezes due to org-element-cache.
