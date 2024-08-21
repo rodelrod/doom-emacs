@@ -389,7 +389,7 @@ and only when it is first created."
     "Visit weekly review file in headline for current week.  Headline is created
 if does not exist, inserting the contents of the template file"
     (interactive)
-    (let ((reviews-file  "~/Org/notes/tasks/weekly_reviews.org")
+    (let ((reviews-file  "~/Org/notes/fleeting/weekly_reviews.org")
           (template-file  "~/Org/templates/weekly_review.org"))
       (find-file reviews-file)
       (rodelrod/org-datetree-find-iso-week-create (calendar-current-date) template-file)))
@@ -512,9 +512,6 @@ or to ~n-not-done~ otherwise."
           ("n" "note wih link" entry
            (file "tasks/inbox.org")
            "* %?\n%U\n%i\n%a\n")
-          ("r" "weekly org review" entry
-           (file "tasks/weekly_reviews.org")
-           (file "~/Org/templates/weekly_review.org") :prepend t)
           ("p" "Protocol Snippet" entry
            (file "tasks/inbox.org")
            "* %a\n%U\n\n#+begin_quote\n%i\n#+end_quote\n\n%?"
@@ -543,7 +540,7 @@ or to ~n-not-done~ otherwise."
   (setq org-roam-directory (file-truename "~/Org/notes")
         org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
-        org-roam-graph-exclude-matcher '("daily/" "tasks/")
+        org-roam-graph-exclude-matcher '("fleeting/" "tasks/")
         org-roam-graph-link-hidden-types '("file" "http" "https" "attachment" "fuzzy")
         +org-roam-open-buffer-on-find-file nil)
 
@@ -569,15 +566,6 @@ or to ~n-not-done~ otherwise."
         :desc "Show org-roam Graph" "g" #'org-roam-graph
         ;; :desc "Toggle org-roam Buffer" "r" #'org-roam-buffer-toggle
         :desc "Add roam files to org-id to fix export" "I" #'org-roam-update-org-id-locations)
-
-  (map! :leader
-        :desc "Capture to daily" "D" #'org-roam-dailies-capture-today
-        :prefix ("d" . "dailies")
-        :desc "Find daily for today" "t" #'org-roam-dailies-goto-today
-        :desc "Find daily in calendar" "d" #'org-roam-dailies-goto-date
-        :desc "Find daily for yesterday" "y" #'org-roam-dailies-goto-yesterday
-        :desc "Find next daily" "n" #'org-roam-dailies-goto-next-note
-        :desc "Find previous daily" "p" #'org-roam-dailies-goto-previous-note)
 
   (setq org-roam-capture-templates
         '(("t" "topic" plain "%?" :if-new
@@ -615,10 +603,6 @@ or to ~n-not-done~ otherwise."
                  (direction . right)
                  (window-width . 0.33)
                  (window-height . fit-window-to-buffer)))
-
-  (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry "* %?\n%U" :if-new
-           (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d, %a W%V>\n#+filetags: :daily:\n"))))
 
   (use-package! websocket
     :after org-roam)
