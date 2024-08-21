@@ -355,6 +355,7 @@ Assumes millisecond timestamps."
   ;; --------------
   ;; Create a weekly review entry in a week datetree based on a template.
   (require 'f)
+  (require 'org-datetree)
   (defun rodelrod/org-datetree-find-iso-week-create (d &optional template-file)
     "Find or create an ISO week entry for date D.
 Compared to `org-datetree-find-iso-week-create' this function does not create a
