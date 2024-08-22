@@ -77,24 +77,9 @@
   ;; '(org-ellipsis :distant-foreground "dim gray")
   )
 
-;; Allow changing Org Attach directory for DBG
-(custom-set-variables
- '(safe-local-variable-values '((org-attach-id-dir . "~/OneDrive/Org/dbg/.attach/"))))
-
-;; HACK Emacs cannot distinguish C-i from TAB, which is disturbing. Instead,
-;;      let's at least make GUI Emacs aware of this distinction:
-;; (This code was committed (2020-05-11) then reverted (2020-05-13) from
-;;  Doom Emacs. I need it to be able to jump back in Org files.)
-(define-key key-translation-map [?\C-i]
-  (λ! (if (and (not (cl-position 'tab    (this-single-command-raw-keys)))
-               (not (cl-position 'kp-tab (this-single-command-raw-keys)))
-               (display-graphic-p))
-          [C-i] [?\C-i])))
-(map! :g [C-i] #'evil-jump-forward)
-
 ;; HACK Workaround for some errors I've been getting:
 ;;   Symbol's function definition is void: \(setf\ persp-window-conf\)
-(persp-mode)
+;; (persp-mode)
 
 
 ;;
