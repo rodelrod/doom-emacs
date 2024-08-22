@@ -419,7 +419,7 @@ if does not exist, inserting the contents of the template file"
           ;; archive project notes in one go instead of having the tasks
           ;; scattered in the Archive datetree.
           ("r" "Area tasks ready to archive"
-           tags "TASKS+CLOSED<\"<-2m>\""
+           tags "TASKS+CLOSED<\"<-3y>\""
            ;; Only archive TODOs from the area files, not project etc.
            ((org-agenda-files (mapcar 'file-truename
                                       '("~/Org/notes/area"
