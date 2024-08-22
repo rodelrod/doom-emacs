@@ -80,6 +80,7 @@
 ;; HACK Workaround for some errors I've been getting:
 ;;   Symbol's function definition is void: \(setf\ persp-window-conf\)
 ;; (persp-mode)
+;; 2022-08-22 commented, remove if no problems
 
 
 ;;
