@@ -427,6 +427,9 @@ if does not exist, inserting the contents of the template file"
                                         "~/Org/notes/client/dbg/area"
                                         "~/Org/notes/client/magicfil/area"
                                         )))))))
+  ;; HACK fix evil keybindings in org-ql
+  ;;      (see https://github.com/alphapapa/org-super-agenda/issues/50)
+  (setq org-super-agenda-header-map (make-sparse-keymap))
 
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
