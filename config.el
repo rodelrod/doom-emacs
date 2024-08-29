@@ -517,7 +517,6 @@ if does not exist, inserting the contents of the template file"
         :desc "Insert org-roam link" "i" #'org-roam-node-insert
         :desc "Find in org-roam notes" "f" #'org-roam-node-find
         :desc "Show org-roam Graph" "g" #'org-roam-graph
-        ;; :desc "Toggle org-roam Buffer" "r" #'org-roam-buffer-toggle
         :desc "Add roam files to org-id to fix export" "I" #'org-roam-update-org-id-locations)
 
   (setq org-roam-capture-templates
