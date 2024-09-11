@@ -513,12 +513,19 @@ if does not exist, inserting the contents of the template file"
   ;;      I do not want to track in the main git repo.
   (setq org-roam-list-files-commands '(find fd fdfind rg))
 
+  (defun rodelrod/org-roam-db-clear-and-sync ()
+    "Clear and rebuild org-roam database"
+    (interactive)
+    (org-roam-db-clear-all)
+    (org-roam-db-sync))
+
   (map! :leader
         :prefix "n"
         :desc "Insert org-roam link" "i" #'org-roam-node-insert
         :desc "Find in org-roam notes" "f" #'org-roam-node-find
         :desc "Show org-roam Graph" "g" #'org-roam-graph
-        :desc "Add roam files to org-id to fix export" "I" #'org-roam-update-org-id-locations)
+        :desc "Add roam files to org-id to fix export" "I" #'org-roam-update-org-id-locations
+        :desc "Clear and rebuild org-roam DB" "R" #'rodelrod/org-roam-db-clear-and-sync)
 
   (setq org-roam-capture-templates
         '(("t" "topic" plain "%?" :if-new
