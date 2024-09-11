@@ -435,6 +435,24 @@ if does not exist, inserting the contents of the template file"
   ;;      (see https://github.com/alphapapa/org-super-agenda/issues/50)
   (setq org-super-agenda-header-map (make-sparse-keymap))
 
+  ;; HACK show category in org-ql-block
+  ;;      (see https://github.com/alphapapa/org-ql/issues/23#issuecomment-1063345875)
+  (defun rodelrod/org-ql-view--format-element (orig-fun &rest args)
+    "This function will intercept the original function and
+   add the category to the result.
+
+   ARGS is `element' in `org-ql-view--format-element'"
+    (if (not args)
+        ""
+      (let* ((element args)
+             (properties (cadar element))
+             (result (apply orig-fun element))
+             (category (org-entry-get (plist-get properties :org-marker) "CATEGORY")))
+        (org-add-props
+            (format "   %-10s %s" (concat category ":") result)
+            (text-properties-at 0 result)))))
+  (advice-add 'org-ql-view--format-element :around #'rodelrod/org-ql-view--format-element)
+
   ;; Function used to launch agenda on emacs client startup
   (defun org-agenda-show-n (&optional arg)
     "Launch agenda in its own buffer"
