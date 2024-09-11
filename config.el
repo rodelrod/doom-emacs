@@ -404,13 +404,16 @@ if does not exist, inserting the contents of the template file"
   (setq org-agenda-custom-commands
         '(("n" "Agenda, NEXT, and other TODOs"
            ((agenda "" nil)
-            (todo "NEXT"
-                  ((org-agenda-overriding-header "Unscheduled NEXT items:")
-                   (org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled))))
-            (todo "WAITING" nil)
-            )
-           nil)
-
+            (org-ql-block '(and (todo "NEXT")
+                                (tags "dbg")
+                                (not (scheduled)))
+                          ((org-ql-block-header "DBG next unscheduled tasks")))
+            (org-ql-block '(and (todo "NEXT")
+                                (not (tags "dbg"))
+                                (not (scheduled)))
+                          ((org-ql-block-header "Other next unscheduled tasks")))
+            (org-ql-block '(todo "WAITING")
+                          ((org-ql-block-header "Waiting")))))
           ;; Last week entries sorted roughly by from latest to earliest (it's
           ;; hard to sort by creation date, which is what I wanted).
           ("l"  "Entries created last week"
