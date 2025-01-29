@@ -402,7 +402,7 @@ if does not exist, inserting the contents of the template file"
                                    "~/Org/notes/client/magicfil/project"
                                    )))
   (setq org-agenda-custom-commands
-        '(("n" "Agenda, NEXT, and other TODOs"
+        '(("n" "Agenda, NEXT, and WAITING"
            ((agenda "" nil)
             (org-ql-block '(and (todo "NEXT")
                                 (tags "dbg")
@@ -414,6 +414,24 @@ if does not exist, inserting the contents of the template file"
                           ((org-ql-block-header "Other next unscheduled tasks")))
             (org-ql-block '(todo "WAITING")
                           ((org-ql-block-header "Waiting")))))
+          ("o" "Other TODOs: TODO and SOMEDAY"
+           ((agenda "" nil)
+            (org-ql-block '(and (todo "TODO")
+                                (tags "dbg")
+                                (not (scheduled)))
+                          ((org-ql-block-header "DBG unscheduled TODOs")))
+            (org-ql-block '(and (todo "SOMEDAY")
+                                (tags "dbg")
+                                (not (scheduled)))
+                          ((org-ql-block-header "DBG unscheduled SOMEDAYs")))
+            (org-ql-block '(and (todo "TODO")
+                                (not (tags "dbg"))
+                                (not (scheduled)))
+                          ((org-ql-block-header "Other unscheduled TODOs")))
+            (org-ql-block '(and (todo "SOMEDAY")
+                                (not (tags "dbg"))
+                                (not (scheduled)))
+                          ((org-ql-block-header "Other unscheduled SOMEDAYs")))))
           ;; Last week entries sorted roughly by from latest to earliest (it's
           ;; hard to sort by creation date, which is what I wanted).
           ("l"  "Entries created last week"
