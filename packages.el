@@ -51,6 +51,7 @@
                                         ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! blacken)
+(package! crontab-mode)
 (package! org-ql)
 (package! org-roam-ui)
 (package! org-super-agenda)
