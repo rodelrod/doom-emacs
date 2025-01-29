@@ -239,7 +239,7 @@ Assumes millisecond timestamps."
         org-plantuml-jar-path  "/usr/share/plantuml/plantuml.jar"
         org-reverse-note-order t
         org-startup-folded 'content
-        org-tag-alist '(("TASKS")("PROJECT"))         ; Can't use single-key shortcuts because broken in Doom AFAICT
+        org-tag-alist '(("TASKS")("PROJECT")("paused"))         ; Can't use single-key shortcuts because broken in Doom AFAICT
         org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c@)"))
         tab-width 8      ; 8 is insane but necessary since Org 9.7 (see https://lists.gnu.org/archive/html/emacs-orgmode/2023-12/msg00284.html)
         )
@@ -387,7 +387,7 @@ if does not exist, inserting the contents of the template file"
   ;; Stuck project definition
   (add-to-list 'org-tags-exclude-from-inheritance "PROJECT")
   (setq org-stuck-projects
-        '("+PROJECT" ("NEXT") nil "SCHEDULED:")))
+        '("+PROJECT-paused/-SOMEDAY-DONE-CANCELLED" ("NEXT") nil "SCHEDULED:")))
 
 
 (after! org-agenda
