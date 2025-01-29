@@ -481,6 +481,9 @@ if does not exist, inserting the contents of the template file"
         '(("t" "todo" entry
            (file "inbox/inbox.org")
            "* TODO %?\n%U\n")
+          ("T" "todo Panzer" entry
+           (file "inbox/inbox-panzer.org")
+           "* TODO %?\n%U\n")
           ("l" "todo with link" entry
            (file "inbox/inbox.org")
            "* TODO %?\n%U\n%i\n%a\n")
