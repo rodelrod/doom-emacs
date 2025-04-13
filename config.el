@@ -236,6 +236,7 @@ Assumes millisecond timestamps."
         org-list-indent-offset 1                      ; indent plain lists with 3 spaces
         org-log-done t                                ; Add CLOSED timestamp when todo is done
         org-log-into-drawer t                         ; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
+        org-modern-star 'replace
         org-plantuml-jar-path  "/usr/share/plantuml/plantuml.jar"
         org-reverse-note-order t
         org-startup-folded 'content
