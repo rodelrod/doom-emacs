@@ -434,8 +434,6 @@ if does not exist, inserting the contents of the template file"
              (properties (cadar element))
              (result (apply orig-fun element))
              (category (org-entry-get (plist-get properties :org-marker) "CATEGORY")))
-        ;; Keep all text properties from RESULT; rebuilding with `format'
-        ;; drops them and removes agenda coloring.
         (concat
          (org-add-props
              (format "   %-10s " (concat category ":"))
