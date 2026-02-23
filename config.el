@@ -215,6 +215,7 @@ Assumes millisecond timestamps."
         org-log-done t                                ; Add CLOSED timestamp when todo is done
         org-log-into-drawer t                         ; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
         org-modern-star 'replace
+        org-modern-replace-stars "◉○◈✿◇✸⁖"          ; org-modern defaults include a char that macOS replaces with horrid emoji
         org-plantuml-jar-path  "/usr/share/plantuml/plantuml.jar"
         org-reverse-note-order t
         org-startup-folded 'content
