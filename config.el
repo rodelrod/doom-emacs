@@ -384,11 +384,6 @@ if does not exist, inserting the contents of the template file"
         '(("n" "Agenda, NEXT, and WAITING"
            ((agenda "" nil)
             (org-ql-block '(and (todo "NEXT")
-                                (tags "dbg")
-                                (not (scheduled)))
-                          ((org-ql-block-header "DBG next unscheduled tasks")))
-            (org-ql-block '(and (todo "NEXT")
-                                (not (tags "dbg"))
                                 (not (scheduled)))
                           ((org-ql-block-header "Other next unscheduled tasks")))
             (org-ql-block '(todo "WAITING")
@@ -396,21 +391,15 @@ if does not exist, inserting the contents of the template file"
           ("o" "Other TODOs: TODO and SOMEDAY"
            ((agenda "" nil)
             (org-ql-block '(and (todo "TODO")
-                                (tags "dbg")
                                 (not (scheduled)))
-                          ((org-ql-block-header "DBG unscheduled TODOs")))
+                          ((org-ql-block-header "Unscheduled TODOs")))
             (org-ql-block '(and (todo "SOMEDAY")
-                                (tags "dbg")
                                 (not (scheduled)))
-                          ((org-ql-block-header "DBG unscheduled SOMEDAYs")))
+                          ((org-ql-block-header "Unscheduled SOMEDAYs")))
             (org-ql-block '(and (todo "TODO")
                                 (not (tags "dbg"))
                                 (not (scheduled)))
-                          ((org-ql-block-header "Other unscheduled TODOs")))
-            (org-ql-block '(and (todo "SOMEDAY")
-                                (not (tags "dbg"))
-                                (not (scheduled)))
-                          ((org-ql-block-header "Other unscheduled SOMEDAYs")))))
+                          ((org-ql-block-header "Other unscheduled TODOs")))))
           ;; Last week entries sorted roughly by from latest to earliest (it's
           ;; hard to sort by creation date, which is what I wanted).
           ("l"  "Entries created last week"
@@ -445,9 +434,13 @@ if does not exist, inserting the contents of the template file"
              (properties (cadar element))
              (result (apply orig-fun element))
              (category (org-entry-get (plist-get properties :org-marker) "CATEGORY")))
-        (org-add-props
-            (format "   %-10s %s" (concat category ":") result)
-            (text-properties-at 0 result)))))
+        ;; Keep all text properties from RESULT; rebuilding with `format'
+        ;; drops them and removes agenda coloring.
+        (concat
+         (org-add-props
+             (format "   %-10s " (concat category ":"))
+             (text-properties-at 0 result))
+         result))))
   (advice-add 'org-ql-view--format-element :around #'rodelrod/org-ql-view--format-element)
 
   ;; Function used to launch agenda on emacs client startup
@@ -477,9 +470,6 @@ if does not exist, inserting the contents of the template file"
         ;; Check https://orgmode.org/manual/Template-expansion.html#Template-expansion
         '(("t" "todo" entry
            (file "inbox/inbox.org")
-           "* TODO %?\n%U\n")
-          ("T" "todo Panzer" entry
-           (file "inbox/inbox-panzer.org")
            "* TODO %?\n%U\n")
           ("l" "todo with link" entry
            (file "inbox/inbox.org")
@@ -555,22 +545,13 @@ if does not exist, inserting the contents of the template file"
           ("l" "literature" plain "%?" :if-new
            (file+head "literature/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :literature:\n")
            :unnarrowed t)
-          ("p" "DBG project" plain "%?" :if-new
-           (file+head "client/dbg/project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :project:dbg:\n")
-           :unnarrowed t)
-          ("P" "project" plain "%?" :if-new
+          ("p" "project" plain "%?" :if-new
            (file+head "project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :project:\n")
            :unnarrowed t)
-          ("a" "DBG area" plain "%?" :if-new
-           (file+head "client/dbg/area/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:dbg:\n")
-           :unnarrowed t)
-          ("A" "area" plain "%?" :if-new
+          ("a" "area" plain "%?" :if-new
            (file+head "area/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:\n")
            :unnarrowed t)
-          ("m" "DBG recurring meeting" plain "%?" :if-new
-           (file+head "client/dbg/meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :meeting:dbg:\n#+startup: overview\n")
-           :unnarrowed t)
-          ("M" "recurring meeting" plain "%?" :if-new
+          ("m" "recurring meeting" plain "%?" :if-new
            (file+head "meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :meeting:\n#+startup: overview\n")
            :unnarrowed t)
           ("w" "who" plain "%?" :if-new
