@@ -372,7 +372,8 @@ if does not exist, inserting the contents of the template file"
 
 (after! org-agenda
   (setq org-agenda-files (mapcar 'file-truename
-                                 '("~/Org/notes/inbox"
+                                 '("~/Org/notes/fleeting"
+                                   "~/Org/notes/fleeting/journelly"
                                    "~/Org/notes/area"
                                    "~/Org/notes/project"
                                    "~/Org/notes/client/magicfil/area"
@@ -458,28 +459,28 @@ if does not exist, inserting the contents of the template file"
 
 
 (after! org-capture
-  (setq org-default-notes-file "inbox/inbox.org")
+  (setq org-default-notes-file "fleeting/inbox.org")
   ;; Get into insert state immediately after entering Capture
   ;;(add-hook 'org-capture-mode-hook 'evil-insert-state)
   (setq org-capture-templates
         ;; Looking for the meaning of the '%' placeholders?
         ;; Check https://orgmode.org/manual/Template-expansion.html#Template-expansion
         '(("t" "todo" entry
-           (file "inbox/inbox.org")
+           (file "fleeting/inbox.org")
            "* TODO %?\n%U\n")
           ("l" "todo with link" entry
-           (file "inbox/inbox.org")
+           (file "fleeting/inbox.org")
            "* TODO %?\n%U\n%i\n%a\n")
           ("n" "note wih link" entry
-           (file "inbox/inbox.org")
+           (file "fleeting/inbox.org")
            "* %?\n%U\n%i\n%a\n")
           ("p" "Protocol Snippet" entry
-           (file "inbox/inbox.org")
+           (file "fleeting/inbox.org")
            "* %a\n%U\n\n#+begin_quote\n%i\n#+end_quote\n\n%?"
            :empty-lines 1
            :immediate-finish t)
           ("L" "Protocol Link" entry
-           (file "inbox/inbox.org")
+           (file "fleeting/inbox.org")
            "* %a\n%U"
            :empty-lines 1
            :immediate-finish t))))
@@ -501,7 +502,7 @@ if does not exist, inserting the contents of the template file"
   (setq org-roam-directory (file-truename "~/Org/notes")
         org-roam-file-exclude-regexp "weekly_reviews.org"
         org-roam-db-location "~/.local/cache/org-roam/org-roam.db"
-        org-roam-graph-exclude-matcher '("fleeting/" "inbox/")
+        org-roam-graph-exclude-matcher '("fleeting/")
         org-roam-graph-link-hidden-types '("file" "http" "https" "attachment" "fuzzy")
         +org-roam-open-buffer-on-find-file nil)
 
