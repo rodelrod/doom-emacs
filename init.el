@@ -97,6 +97,7 @@
         +docsets        ; ...or in Dash docsets locally
         +dictionary
         +offline)
+       llm
        (lsp +eglot)
        ;;macos             ; MacOS-specific commands
        (magit +forge)      ; a git porcelain for Emacs

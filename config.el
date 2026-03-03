@@ -199,6 +199,12 @@ Assumes millisecond timestamps."
 (after! blacken
   (setq blacken-skip-string-normalization t))
 
+(after! gptel
+  (setq gptel-api-key (getenv "OPENAI_API_KEY")
+        gptel-default-mode 'org-mode)
+
+  (map! :leader
+        :desc "Clear context" "o l x" #'gptel-context-remove-all))
 
 (use-package! org
   :mode "\\.org_archive\\'"
