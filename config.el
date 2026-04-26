@@ -217,6 +217,8 @@ Assumes millisecond timestamps."
         org-download-image-org-width 400
         org-ellipsis " ▶"
         org-enforce-todo-dependencies t
+        org-preview-latex-default-process 'dvisvgm
+        org-startup-with-latex-preview t
         org-list-indent-offset 1                      ; indent plain lists with 3 spaces
         org-log-done t                                ; Add CLOSED timestamp when todo is done
         org-log-into-drawer t                         ; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
