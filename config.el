@@ -224,7 +224,8 @@ Assumes millisecond timestamps."
         org-log-into-drawer t                         ; Put log notes (C-c C-z) and state changes in LOGBOOK drawer.
         org-modern-star 'replace
         org-modern-replace-stars "◉○◈✿◇✸⁖"          ; org-modern defaults include a char that macOS replaces with horrid emoji
-        org-plantuml-jar-path  "/usr/share/plantuml/plantuml.jar"
+        org-plantuml-exec-mode 'plantuml
+        org-plantuml-executable-path (or (executable-find "plantuml") "plantuml")
         org-reverse-note-order t
         org-startup-folded 'content
         org-tag-alist '(("TASKS")("PROJECT")("paused"))         ; Can't use single-key shortcuts because broken in Doom AFAICT
