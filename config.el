@@ -385,6 +385,8 @@ if does not exist, inserting the contents of the template file"
                                    "~/Org/notes/fleeting/journelly"
                                    "~/Org/notes/area"
                                    "~/Org/notes/project"
+                                   "~/Org/notes/client/orisha/area"
+                                   "~/Org/notes/client/orisha/project"
                                    "~/Org/notes/client/magicfil/area"
                                    "~/Org/notes/client/magicfil/project"
                                    )))
@@ -392,6 +394,11 @@ if does not exist, inserting the contents of the template file"
         '(("n" "Agenda, NEXT, and WAITING"
            ((agenda "" nil)
             (org-ql-block '(and (todo "NEXT")
+                                (tags "orisha")
+                                (not (scheduled)))
+                          ((org-ql-block-header "Orisha next unscheduled tasks")))
+            (org-ql-block '(and (todo "NEXT")
+                                (not (tags "orisha"))
                                 (not (scheduled)))
                           ((org-ql-block-header "Other next unscheduled tasks")))
             (org-ql-block '(todo "WAITING")
@@ -399,15 +406,21 @@ if does not exist, inserting the contents of the template file"
           ("o" "Other TODOs: TODO and SOMEDAY"
            ((agenda "" nil)
             (org-ql-block '(and (todo "TODO")
+                                (tags "orisha")
                                 (not (scheduled)))
-                          ((org-ql-block-header "Unscheduled TODOs")))
+                          ((org-ql-block-header "Orisha unscheduled TODOs")))
             (org-ql-block '(and (todo "SOMEDAY")
+                                (tags "orisha")
                                 (not (scheduled)))
-                          ((org-ql-block-header "Unscheduled SOMEDAYs")))
+                          ((org-ql-block-header "Orisha unscheduled SOMEDAYs")))
             (org-ql-block '(and (todo "TODO")
-                                (not (tags "dbg"))
+                                (not (tags "orisha"))
                                 (not (scheduled)))
-                          ((org-ql-block-header "Other unscheduled TODOs")))))
+                          ((org-ql-block-header "Other unscheduled TODOs")))
+            (org-ql-block '(and (todo "SOMEDAY")
+                                (not (tags "orisha"))
+                                (not (scheduled)))
+                          ((org-ql-block-header "Other unscheduled SOMEDAYs")))))
           ;; Last week entries sorted roughly by from latest to earliest (it's
           ;; hard to sort by creation date, which is what I wanted).
           ("l"  "Entries created last week"
@@ -422,7 +435,7 @@ if does not exist, inserting the contents of the template file"
            ;; Only archive TODOs from the area files, not project etc.
            ((org-agenda-files (mapcar 'file-truename
                                       '("~/Org/notes/area"
-                                        "~/Org/notes/client/dbg/area"
+                                        "~/Org/notes/client/orisha/area"
                                         "~/Org/notes/client/magicfil/area"
                                         )))))))
   ;; HACK fix evil keybindings in org-ql
@@ -476,6 +489,9 @@ if does not exist, inserting the contents of the template file"
         ;; Check https://orgmode.org/manual/Template-expansion.html#Template-expansion
         '(("t" "todo" entry
            (file "fleeting/inbox.org")
+           "* TODO %?\n%U\n")
+          ("T" "todo Orisha" entry
+           (file "fleeting/inbox-oxum.org")
            "* TODO %?\n%U\n")
           ("l" "todo with link" entry
            (file "fleeting/inbox.org")
@@ -551,14 +567,20 @@ if does not exist, inserting the contents of the template file"
           ("l" "literature" plain "%?" :if-new
            (file+head "literature/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :literature:\n")
            :unnarrowed t)
-          ("p" "project" plain "%?" :if-new
+          ("p" "Orisha project" plain "%?" :if-new
+           (file+head "client/orisha/project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :project:orisha:\n")
+           :unnarrowed t)
+          ("P" "project" plain "%?" :if-new
            (file+head "project/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :project:\n")
            :unnarrowed t)
-          ("a" "area" plain "%?" :if-new
+          ("a" "Orisha area" plain "%?" :if-new
+           (file+head "client/orisha/area/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:orisha:\n")
+           :unnarrowed t)
+          ("A" "area" plain "%?" :if-new
            (file+head "area/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :area:\n")
            :unnarrowed t)
-          ("m" "recurring meeting" plain "%?" :if-new
-           (file+head "meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :meeting:\n#+startup: overview\n")
+          ("m" "Orisha recurring meeting" plain "%?" :if-new
+           (file+head "client/orisha/meeting/%<%Y%m>-${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :meeting:orisha:\n#+startup: overview\n")
            :unnarrowed t)
           ("w" "who" plain "%?" :if-new
            (file+head "who/${slug}.org" "#+title: ${title}\n#+created: %U\n#+filetags: :who:\n")
