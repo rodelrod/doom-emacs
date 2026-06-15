@@ -328,36 +328,56 @@ Assumes millisecond timestamps."
   ;; --------------
   ;; Create a weekly review entry in a week datetree based on a template.
   (require 'f)
-  (require 'org-datetree)
+  (require 'cal-iso)
   (defun rodelrod/org-datetree-find-iso-week-create (d &optional template-file)
     "Find or create an ISO week entry for date D.
-Compared to `org-datetree-find-iso-week-create' this function does not create a
-day entry under the week. Only headers for the year and the week are created.
-A TEMPLATE-FILE can be read to insert text after the week heading when
-and only when it is first created."
-    (goto-char (point-min))
-    (require 'cal-iso)
+Only headers for the year and the week are created. A TEMPLATE-FILE can be read
+to insert text after the week heading when and only when it is first created."
     (let* ((year (calendar-extract-year d))
            (month (calendar-extract-month d))
            (day (calendar-extract-day d))
            (time (encode-time 0 0 0 day month year))
            (iso-date (calendar-iso-from-absolute
                       (calendar-absolute-from-gregorian d)))
-           (weekyear (nth 2 iso-date))
-           (week (nth 0 iso-date)))
-      ;; ISO 8601 week format is %G-W%V(-%u)
-      (org-datetree--find-create
-       "^\\*+[ \t]+\\([12][0-9]\\{3\\}\\)\\(\\s-*?\
-\\([ \t]:[[:alnum:]:_@#%%]+:\\)?\\s-*$\\)"
-       weekyear nil nil
-       (format-time-string "%G" time))
-      (org-datetree--find-create
-       "^\\*+[ \t]+%d-W\\([0-5][0-9]\\)$"
-       weekyear week nil
-       (concat
-        (format-time-string "%G-W%V" time)
-        "\n"
-        (f-read-text template-file)))))
+           (week (nth 0 iso-date))
+           (year-heading (format-time-string "%G" time))
+           (week-heading (format "%s-W%02d" year-heading week))
+           (template (when template-file
+                       (with-temp-buffer
+                         (insert-file-contents template-file)
+                         (string-trim-right (buffer-string)))))
+           year-start
+           year-end)
+      (widen)
+      (goto-char (point-min))
+      (unless (re-search-forward
+               (format "^\\*[ \t]+%s\\(?:[ \t].*\\)?$"
+                       (regexp-quote year-heading))
+               nil t)
+        (goto-char (point-max))
+        (unless (bolp) (insert "\n"))
+        (insert "* " year-heading "\n")
+        (forward-line -1))
+      (beginning-of-line)
+      (setq year-start (point))
+      (setq year-end (save-excursion
+                       (org-end-of-subtree t t)
+                       (point)))
+      (unless (re-search-forward
+               (format "^\\*\\*[ \t]+%s\\(?:[ \t].*\\)?$"
+                       (regexp-quote week-heading))
+               year-end t)
+        (goto-char year-end)
+        (unless (bolp) (insert "\n"))
+        (insert "** " week-heading "\n")
+        (when template
+          (insert template "\n"))
+        (goto-char year-start)
+        (re-search-forward
+         (format "^\\*\\*[ \t]+%s\\(?:[ \t].*\\)?$"
+                 (regexp-quote week-heading))
+         nil t))
+      (beginning-of-line)))
 
   (defun rodelrod/go-to-weekly-review ()
     "Visit weekly review file in headline for current week.  Headline is created
@@ -366,7 +386,8 @@ if does not exist, inserting the contents of the template file"
     (let ((reviews-file  "~/Org/notes/fleeting/weekly_reviews.org")
           (template-file  "~/Org/templates/weekly_review.org"))
       (find-file reviews-file)
-      (rodelrod/org-datetree-find-iso-week-create (calendar-current-date) template-file)))
+      (rodelrod/org-datetree-find-iso-week-create (calendar-current-date) template-file)
+      (org-narrow-to-subtree)))
 
   (map! :map org-mode-map
         :leader
