@@ -15,6 +15,9 @@
 ;; font string. You generally only need these two:
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14)
       doom-variable-pitch-font (font-spec :family "Source Sans 3"))
+;; JetBrainsMono bold variant is too weak. Use extra-bold. Not needed for other fonts.
+(custom-set-faces!
+  '(bold :weight extra-bold))
 
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
